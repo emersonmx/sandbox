@@ -11,7 +11,7 @@ interface User {
     email: string;
 }
 
-let users: User[] = [];
+let users = Array<User>();
 
 app.get('/users', (_, res) => {
     res.json(users);
