@@ -58,6 +58,6 @@ app.delete('/users/:id', (req, res) => {
     res.status(204).send();
 });
 
-const port = 3333;
+const port = 3000;
 app.listen(port);
 console.log('Running on http://localhost:%d ...', port);
