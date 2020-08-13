@@ -49,7 +49,7 @@ yarn add express
 yarn add -D ts-node-dev @types/express
 ```
 
-o `ts-node-dev` é só pra reiniciar o servidor do express caso algum arquivo
+o `ts-node-dev` é só pra reiniciar o servidor do Express caso algum arquivo
 seja modificado (Um `Cima+Enter` a menos \o/).
 
 Depois disso eu crio um novo script no `package.json` parecido com isso
