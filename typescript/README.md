@@ -56,7 +56,7 @@ Depois disso eu crio um novo script no `package.json` parecido com isso
 `"ts-node-dev --respawn --transpile-only <arquivo.ts>"` e defino o `outDir`
 para `./dist`.
 
-Depois eu escrevo um `app.ts` e rodo o script do definido no `package.json` pra
+Depois eu escrevo um `app.ts` e rodo o script definido no `package.json` pra
 iniciar o servidor.
 
 Como a priguiça é grande eu criei um script para fazer de projetos Express. Aí
