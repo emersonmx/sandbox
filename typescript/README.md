@@ -3,8 +3,8 @@
 O único ponto que me faz preferir TypeScript a Javascript é a produtividade que
 ela dá. Ao colocar o tipo nas coisas, você ajuda a IDE a te ajudar. Eu não
 tenho mais paciência pra ficar lendo documentação fulêra das bibliotecas ou
-ficar caçando implementação das classes na mão. O `Ctrl+click`/`Ctrl+space` da IDE
-serve pra isso. E se a IDE não está ajudando, então é melhor programar no
+ficar caçando implementação das classes na mão. O `Ctrl+click`/`Ctrl+space` da
+IDE serve pra isso. E se a IDE não está ajudando, então é melhor programar no
 notepad que pelo menos abre mais rápido.
 
 E o interessante é que eu falo de produtividade, mas eu acho a configuração
