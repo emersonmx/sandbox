@@ -60,4 +60,4 @@ app.delete('/users/:id', (req, res) => {
 
 const port = 3000;
 app.listen(port);
-console.log('Running on http://localhost:%d ...', port);
+console.log(`Running on http://localhost:${port} (Press CTRL+C to quit)`);
