@@ -59,13 +59,13 @@ para `./dist`.
 Depois eu escrevo um `app.ts` e rodo o script definido no `package.json` pra
 iniciar o servidor.
 
-Como a priguiça é grande eu criei um script para fazer de projetos Express. Aí
-o setup fica apenas:
+Como a priguiça é grande. Eu criei um script para fazer esse setup. Aí é só
+rodar:
 
 ```sh
-mkdir new-project
-cd new-project
+mkdir <new-project>
+cd <new-project>
 ../scripts/setup-express.sh
 ```
 
-E é só iniciar o servidor do Express com `yarn dev:server`.
+E iniciar o servidor do Express com `yarn dev:server`.
