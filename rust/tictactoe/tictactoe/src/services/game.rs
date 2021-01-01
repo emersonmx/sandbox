@@ -9,11 +9,20 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(game_match: Match, current_player: &str) -> Self {
-        Self {
+    pub fn new(
+        game_match: Match,
+        current_player: &str,
+    ) -> Result<Self, GameError> {
+        Self::assert_current_player(
+            current_player,
+            game_match.player1().id(),
+            game_match.player2().id(),
+        )?;
+
+        Ok(Self {
             game_match,
             current_player: current_player.to_string(),
-        }
+        })
     }
 
     pub fn game_match(&self) -> &Match {
@@ -28,12 +37,13 @@ impl Game {
         &mut self,
         player: &str,
     ) -> Result<(), GameError> {
-        if self.players().contains(&player) {
-            self.current_player = player.to_string();
-            Ok(())
-        } else {
-            Err(GameError::InvalidPlayer(player.to_string()))
-        }
+        Self::assert_current_player(
+            player,
+            self.game_match.player1().id(),
+            self.game_match.player2().id(),
+        )?;
+        self.current_player = player.to_string();
+        Ok(())
     }
 
     pub fn next_player(&mut self) {
@@ -46,11 +56,18 @@ impl Game {
         }
     }
 
-    fn players(&self) -> [&str; 2] {
-        return [
-            self.game_match.player1().id(),
-            self.game_match.player2().id(),
-        ];
+    fn assert_current_player(
+        player: &str,
+        player1: &str,
+        player2: &str,
+    ) -> Result<(), GameError> {
+        let players = [player1, player2];
+
+        if players.contains(&player) {
+            Ok(())
+        } else {
+            Err(GameError::InvalidPlayer(player.to_string()))
+        }
     }
 }
 
@@ -66,41 +83,36 @@ mod test {
         Match::new("m1", player1, player2, board, score_board)
     }
 
+    fn create_game() -> Game {
+        let game_match = create_game_match();
+        Game::new(game_match, "p1").unwrap()
+    }
+
     #[test]
     fn it_creates_a_game() {
-        let game_match = create_game_match();
-        let game_match_clone = game_match.clone();
-        let game = Game::new(game_match, game_match_clone.player1().id());
-        assert_eq!(game_match_clone.id(), game.game_match().id());
+        let game = create_game();
+        assert_eq!("m1", game.game_match().id());
+        assert_eq!("p1", game.current_player());
     }
 
     #[test]
     fn it_manages_the_player_turn() {
-        let game_match = create_game_match();
-        let game_match_clone = game_match.clone();
-
-        let mut game = Game::new(game_match, game_match_clone.player1().id());
-        assert_eq!(game_match_clone.player1().id(), game.current_player());
+        let mut game = create_game();
+        assert_eq!("p1", game.current_player());
         game.next_player();
-        assert_eq!(game_match_clone.player2().id(), game.current_player());
+        assert_eq!("p2", game.current_player());
         game.next_player();
-        assert_eq!(game_match_clone.player1().id(), game.current_player());
+        assert_eq!("p1", game.current_player());
         game.next_player();
-        game.set_current_player(game_match_clone.player1().id())
-            .unwrap();
-        assert_eq!(game_match_clone.player1().id(), game.current_player());
+        game.set_current_player("p1").unwrap();
+        assert_eq!("p1", game.current_player());
     }
 
     #[test]
     fn it_validates_the_players_in_the_match() {
         let player3 = Player::new("p3", "Jane", Mark::X);
-        let game_match = create_game_match();
-        let game_match_clone = game_match.clone();
-
-        let mut game = Game::new(game_match, game_match_clone.player1().id());
-        assert!(game
-            .set_current_player(game_match_clone.player1().id())
-            .is_ok());
+        let mut game = create_game();
+        assert!(game.set_current_player("p1").is_ok());
         assert!(game.set_current_player(player3.id()).is_err());
 
         match game.set_current_player(player3.id()) {
