@@ -11,17 +11,17 @@ pub struct Game {
 impl Game {
     pub fn new(
         game_match: Match,
-        current_player: &str,
+        first_player: &str,
     ) -> Result<Self, GameError> {
         Self::assert_current_player(
-            current_player,
+            first_player,
             game_match.player1().id(),
             game_match.player2().id(),
         )?;
 
         Ok(Self {
             game_match,
-            current_player: current_player.to_string(),
+            current_player: first_player.to_string(),
         })
     }
 
@@ -114,10 +114,5 @@ mod test {
         let mut game = create_game();
         assert!(game.set_current_player("p1").is_ok());
         assert!(game.set_current_player(player3.id()).is_err());
-
-        match game.set_current_player(player3.id()) {
-            Err(e) => println!("{}", e),
-            Ok(_) => {}
-        }
     }
 }
