@@ -1,17 +1,23 @@
-.PHONY: lint format tests clean
+.PHONY: setup-dev shell format lint tests clean
 
 ifndef VERBOSE
 MAKEFLAGS += --silent
 endif
 
 
-lint:
-	@flake8 .
-	@mypy .
+setup-dev:
+	@poetry install
+
+shell:
+	@poetry shell
 
 format:
 	@isort .
 	@black .
+
+lint:
+	@flake8 .
+	@mypy .
 
 tests:
 	@pytest .
