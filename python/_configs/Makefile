@@ -16,9 +16,6 @@ format:
 tests:
 	@pytest .
 
-watch-tests:
-	@find tests -type f -iname "*.py" | entr make tests
-
 clean:
 	@find . -type f -name "*.py[co]" -delete
 	@find . -type d -name "__pycache__" -delete
