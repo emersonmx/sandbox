@@ -1,4 +1,4 @@
-.PHONY: tests
+.PHONY: lint format tests clean
 
 ifndef VERBOSE
 MAKEFLAGS += --silent
