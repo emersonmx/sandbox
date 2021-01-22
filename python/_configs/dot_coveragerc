@@ -1,0 +1,9 @@
+[run]
+branch = True
+source =
+    src/project
+
+[report]
+fail_under = 100
+omit =
+    src/tests/*
