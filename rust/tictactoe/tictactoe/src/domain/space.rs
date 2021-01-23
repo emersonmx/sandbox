@@ -2,15 +2,22 @@ use super::Board;
 
 #[derive(Debug, PartialEq, Hash, Clone, Copy)]
 pub struct Space {
-    row: u8,
-    column: u8,
+    pub row: u8,
+    pub column: u8,
 }
 
 impl Space {
     pub fn new(row: u8, column: u8) -> Self {
-        assert!(1 <= row && row <= Board::ROWS);
-        assert!(1 <= column && column <= Board::COLUMNS);
+        Self::check_invariants(row, column);
         Space { row, column }
+    }
+
+    fn check_invariants(row: u8, column: u8) {
+        assert!(1 <= row && row <= Board::ROWS, "row is not between 1 and 3");
+        assert!(
+            1 <= column && column <= Board::COLUMNS,
+            "column is not between 1 and 3"
+        );
     }
 }
 
@@ -30,38 +37,38 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "1 <= row && row <= Board::ROWS")]
+    #[should_panic(expected = "row is not between 1 and 3")]
     fn it_cannot_creates_a_space_with_row_and_column_lesser_than_1() {
-        let _ = Space::new(0, 0);
+        Space::new(0, 0);
     }
 
     #[test]
-    #[should_panic(expected = "1 <= column && column <= Board::COLUMN")]
+    #[should_panic(expected = "column is not between 1 and 3")]
     fn it_cannot_creates_a_space_with_column_lesser_that_1() {
-        let _ = Space::new(1, 0);
+        Space::new(1, 0);
     }
 
     #[test]
-    #[should_panic(expected = "1 <= row && row <= Board::ROWS")]
+    #[should_panic(expected = "row is not between 1 and 3")]
     fn it_cannot_creates_a_space_with_row_lesser_than_1() {
-        let _ = Space::new(0, 1);
+        Space::new(0, 1);
     }
 
     #[test]
-    #[should_panic(expected = "1 <= row && row <= Board::ROWS")]
+    #[should_panic(expected = "row is not between 1 and 3")]
     fn it_cannot_creates_a_space_greater_than_max_rows_and_columns() {
-        let _ = Space::new(Board::ROWS + 1, Board::COLUMNS + 1);
+        Space::new(Board::ROWS + 1, Board::COLUMNS + 1);
     }
 
     #[test]
-    #[should_panic(expected = "1 <= row && row <= Board::ROWS")]
+    #[should_panic(expected = "row is not between 1 and 3")]
     fn it_cannot_creates_a_space_greater_than_max_rows() {
-        let _ = Space::new(Board::ROWS + 1, 1);
+        Space::new(Board::ROWS + 1, 1);
     }
 
     #[test]
-    #[should_panic(expected = "1 <= column && column <= Board::COLUMN")]
+    #[should_panic(expected = "column is not between 1 and 3")]
     fn it_cannot_creates_a_space_greater_than_max_columns() {
-        let _ = Space::new(1, Board::COLUMNS+1);
+        Space::new(1, Board::COLUMNS + 1);
     }
 }

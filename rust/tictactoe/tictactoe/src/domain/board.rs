@@ -1,4 +1,4 @@
-use super::{Mark, MarkError};
+use super::{Mark, MarkError, Space};
 
 type Marks = [Mark; Board::SIZE];
 
@@ -10,7 +10,7 @@ pub struct Board {
 impl Board {
     pub const ROWS: u8 = 3;
     pub const COLUMNS: u8 = 3;
-    pub const SIZE: usize = 9;
+    const SIZE: usize = (Self::ROWS * Self::COLUMNS) as usize;
 
     pub fn new() -> Self {
         Self {
@@ -22,19 +22,19 @@ impl Board {
         self.marks
     }
 
-    pub fn mark(&mut self, i: u8, j: u8, mark: Mark) -> Result<(), MarkError> {
-        let index: usize = Self::map_to_index(i, j)?;
-        if self.has_mark(i, j) {
-            Err(MarkError::NotEmpty(i, j, mark))
+    pub fn mark(&mut self, space: Space, mark: Mark) -> Result<(), MarkError> {
+        let index = Self::map_to_index(space);
+        if self.has_mark(space) {
+            Err(MarkError::NotEmpty(space.row, space.column, mark))
         } else {
             self.marks[index] = mark;
             Ok(())
         }
     }
 
-    pub fn get_mark(&self, i: u8, j: u8) -> Result<Mark, MarkError> {
-        let index: usize = Self::map_to_index(i, j)?;
-        Ok(self.marks[index])
+    pub fn get_mark(&self, space: Space) -> Mark {
+        let index = Self::map_to_index(space);
+        self.marks[index]
     }
 
     pub fn clear(&mut self) {
@@ -49,20 +49,14 @@ impl Board {
         self.marks.iter().all(|&m| m != Mark::None)
     }
 
-    fn has_mark(&self, i: u8, j: u8) -> bool {
-        match self.get_mark(i, j) {
-            Ok(m) => m != Mark::None,
-            Err(_) => false,
-        }
+    fn has_mark(&self, space: Space) -> bool {
+        self.get_mark(space) != Mark::None
     }
 
-    fn map_to_index(i: u8, j: u8) -> Result<usize, MarkError> {
-        let index: usize = (i * Self::ROWS + j).into();
-        if index >= Self::SIZE {
-            Err(MarkError::OutOfBounds(i, j))
-        } else {
-            Ok(index)
-        }
+    fn map_to_index(space: Space) -> usize {
+        let i = space.row - 1;
+        let j = space.column - 1;
+        (i * Self::ROWS + j).into()
     }
 }
 
@@ -73,45 +67,32 @@ mod test {
     #[test]
     fn it_creates_a_empty_board() {
         let board = Board::new();
-        board
-            .marks()
-            .iter()
-            .for_each(|&x| assert_eq!(Mark::None, x));
+        assert!(board.is_empty());
     }
 
     #[test]
     fn it_marks_the_board() {
         let mut board = Board::new();
-        board.mark(1, 1, Mark::O).unwrap();
-        assert_eq!(Mark::O, board.get_mark(1, 1).unwrap());
-    }
-
-    #[test]
-    fn it_cant_marks_outside_the_bounds() {
-        let mut board = Board::new();
-        assert!(board.mark(1, 1, Mark::X).is_ok());
-        assert!(board.mark(3, 3, Mark::O).is_err());
+        board.mark(Space::new(1, 1), Mark::O).unwrap();
+        assert_eq!(Mark::O, board.get_mark(Space::new(1, 1)));
     }
 
     #[test]
     fn it_cant_marks_a_marked_place() {
         let mut board = Board::new();
-        assert!(board.mark(1, 1, Mark::X).is_ok());
-        assert!(board.mark(1, 1, Mark::X).is_err());
+        assert!(board.mark(Space::new(1, 1), Mark::X).is_ok());
+        assert!(board.mark(Space::new(1, 1), Mark::X).is_err());
     }
 
     #[test]
     fn it_clears_the_board() {
         let mut board = Board::new();
-        board.mark(1, 1, Mark::O).unwrap();
-        board.mark(2, 1, Mark::X).unwrap();
-        assert_eq!(Mark::O, board.get_mark(1, 1).unwrap());
-        assert_eq!(Mark::X, board.get_mark(2, 1).unwrap());
+        board.mark(Space::new(1, 1), Mark::O).unwrap();
+        board.mark(Space::new(2, 1), Mark::X).unwrap();
+        assert_eq!(Mark::O, board.get_mark(Space::new(1, 1)));
+        assert_eq!(Mark::X, board.get_mark(Space::new(2, 1)));
         board.clear();
-        board
-            .marks()
-            .iter()
-            .for_each(|&x| assert_eq!(Mark::None, x));
+        assert!(board.is_empty());
     }
 
     #[test]
@@ -119,17 +100,15 @@ mod test {
         let mut board = Board::new();
         assert!(board.is_empty());
 
-        for i in 0..Board::ROWS {
-            for j in 0..Board::COLUMNS {
-                board.mark(i, j, Mark::O).unwrap()
+        for i in 1..=Board::ROWS {
+            for j in 1..=Board::COLUMNS {
+                board.mark(Space::new(i, j), Mark::O).unwrap();
             }
         }
-
-        board.marks().iter().for_each(|&x| assert_eq!(Mark::O, x));
         assert!(board.is_full());
 
         board.clear();
-        board.mark(0, 0, Mark::O).unwrap();
+        board.mark(Space::new(1, 1), Mark::O).unwrap();
         assert!(!board.is_empty());
         assert!(!board.is_full());
     }
