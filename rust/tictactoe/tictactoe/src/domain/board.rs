@@ -1,4 +1,4 @@
-use super::{errors::MarkError, mark::Mark};
+use super::{Mark, MarkError};
 
 type Marks = [Mark; Board::SIZE];
 

@@ -1,6 +1,6 @@
 use std::hash::{Hash, Hasher};
 
-use super::{board::Board, player::Player, score_board::ScoreBoard};
+use super::{Board, Player, ScoreBoard};
 
 #[derive(Debug, Clone)]
 pub struct Match {
@@ -63,7 +63,7 @@ impl Match {
 
 #[cfg(test)]
 mod test {
-    use crate::domain::mark::Mark;
+    use crate::domain::Mark;
 
     use super::*;
 

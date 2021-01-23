@@ -1,6 +1,6 @@
 use std::{error::Error, fmt};
 
-use super::mark::Mark;
+use super::Mark;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum MarkError {

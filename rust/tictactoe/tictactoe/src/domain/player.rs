@@ -1,6 +1,6 @@
 use std::hash::{Hash, Hasher};
 
-use super::mark::Mark;
+use super::Mark;
 
 #[derive(Debug, Clone)]
 pub struct Player {
