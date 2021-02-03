@@ -1,12 +1,9 @@
 use std::hash::{Hash, Hasher};
 
-use super::Mark;
-
 #[derive(Debug, Clone)]
 pub struct Player {
     id: String,
     pub name: String,
-    pub mark: Mark,
 }
 
 impl PartialEq for Player {
@@ -22,11 +19,10 @@ impl Hash for Player {
 }
 
 impl Player {
-    pub fn new(id: &str, name: &str, mark: Mark) -> Self {
+    pub fn new(id: &str, name: &str) -> Self {
         Self {
             id: id.to_string(),
             name: name.to_string(),
-            mark,
         }
     }
 
@@ -41,20 +37,15 @@ mod test {
 
     #[test]
     fn it_creates_a_player() {
-        let player = Player::new("p1", "John", Mark::O);
+        let player = Player::new("p1", "John");
         assert_eq!("p1", player.id());
         assert_eq!("John", player.name);
-        assert_eq!(Mark::O, player.mark);
     }
 
     #[test]
     fn it_can_updates_the_mark() {
-        let mut player = Player::new("p1", "John", Mark::O);
+        let player = Player::new("p1", "John");
         assert_eq!("p1", player.id());
         assert_eq!("John", player.name);
-        assert_eq!(Mark::O, player.mark);
-
-        player.mark = Mark::X;
-        assert_eq!(Mark::X, player.mark);
     }
 }
