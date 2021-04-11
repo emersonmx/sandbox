@@ -1,0 +1,116 @@
+{ "frames": {
+   "noughts": {
+    "frame": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "crosses": {
+    "frame": { "x": 0, "y": 32, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "lines": {
+    "frame": { "x": 0, "y": 64, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "gameover": {
+    "frame": { "x": 0, "y": 96, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "draw": {
+    "frame": { "x": 0, "y": 128, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "nought_wins": {
+    "frame": { "x": 0, "y": 160, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "cross_wins": {
+    "frame": { "x": 0, "y": 192, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "pause": {
+    "frame": { "x": 0, "y": 224, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "resume": {
+    "frame": { "x": 0, "y": 256, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "restart": {
+    "frame": { "x": 0, "y": 288, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   },
+   "quit": {
+    "frame": { "x": 0, "y": 320, "w": 128, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 128, "h": 32 },
+    "sourceSize": { "w": 128, "h": 32 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.25-dev",
+  "image": "spritesheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 128, "h": 352 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "noughts", "opacity": 255, "blendMode": "normal" },
+   { "name": "crosses", "opacity": 255, "blendMode": "normal" },
+   { "name": "lines", "opacity": 255, "blendMode": "normal" },
+   { "name": "gameover", "opacity": 255, "blendMode": "normal" },
+   { "name": "draw", "opacity": 255, "blendMode": "normal" },
+   { "name": "nought_wins", "opacity": 255, "blendMode": "normal" },
+   { "name": "cross_wins", "opacity": 255, "blendMode": "normal" },
+   { "name": "pause", "opacity": 255, "blendMode": "normal" },
+   { "name": "resume", "opacity": 255, "blendMode": "normal" },
+   { "name": "restart", "opacity": 255, "blendMode": "normal" },
+   { "name": "quit", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
