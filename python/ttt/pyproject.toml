@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "ttt-pygame"
+version = "0.1.0"
+description = ""
+authors = ["Emerson MX <emersonmx@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pygame = "^2.0.1"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.9.0"
+mypy = "^0.812"
+black = "^20.8b1"
+isort = "^5.8.0"
+jedi = "^0.18.0"
+rope = "^0.18.0"
+pytest = "^6.2.3"
+coverage = "^5.5"
+ipdb = "^0.13.7"
+invoke = "^1.5.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 80
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 80
+multi_line_output = 3
+
