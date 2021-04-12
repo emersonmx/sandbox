@@ -3,6 +3,12 @@ from invoke.context import Context
 
 
 @task
+def run(c):
+    # type: (Context) -> None
+    c.run("python src/main/game.py")
+
+
+@task
 def format(c):
     # type: (Context) -> None
     c.run("black .")
