@@ -1,0 +1,6 @@
+.git
+.mypy_cache
+Dockerfile
+docker-compose.yaml
+poetry.lock
+pyproject.toml
