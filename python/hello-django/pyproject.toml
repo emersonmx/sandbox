@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "hello-django"
+version = "0.1.0"
+description = ""
+authors = ["Emerson MX <emersonmx@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.7"
+python-decouple = "^3.4"
+gunicorn = "^20.1.0"
+whitenoise = "^5.3.0"
+dj-database-url = "^0.5.0"
+psycopg2-binary = "^2.9.1"
+
+[tool.poetry.dev-dependencies]
+add-trailing-comma = "^2.1.0"
+black = "^21.8b0"
+isort = "^5.9.3"
+types-all = "^1.0.0"
+flake8 = "^3.9.2"
+flake8-print = "^4.0.0"
+pep8-naming = "^0.12.1"
+mypy = "^0.910"
+vulture = "^2.3"
+bandit = "^1.7.0"
+pytest = "^6.2.5"
+pytest-asyncio = "^0.15.1"
+coverage = "^5.5"
+ipdb = "^0.13.9"
+invoke = "^1.6.0"
+pre-commit = "^2.15.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 80
+
+[tool.isort]
+profile = "black"
+line_length = 80
+multi_line_output = 3
+
+[tool.mypy]
+allow_redefinition = true
+disallow_untyped_defs = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "invoke.*"
+ignore_missing_imports = true
+
+[tool.vulture]
+min_confidence = 100
+
+[tool.coverage.run]
+branch = true
+source = ["src/"]
+
+[tool.coverage.report]
+fail_under = 100
