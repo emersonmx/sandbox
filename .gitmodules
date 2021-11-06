@@ -1,0 +1,3 @@
+[submodule "python/py-calc-rpn"]
+	path = python/py-calc-rpn
+	url = https://github.com/emersonmx/py-calc-rpn.git
