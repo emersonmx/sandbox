@@ -1,9 +1,18 @@
 [package]
-name = "hello_sprite"
+name = "move_sprite"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.6"
+
+[dependencies.bevy]
+version = "0.6"
+default-features = false
+features = [
+    "render",
+    "bevy_winit",
+    "x11",
+    "png",
+]
