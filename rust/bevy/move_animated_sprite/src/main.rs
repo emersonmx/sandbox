@@ -73,7 +73,7 @@ fn move_player(
         *direction = Direction::Left;
     }
 
-    if velocity.length() <= 0.0 {
+    if velocity == Vec3::ZERO {
         return;
     }
 
