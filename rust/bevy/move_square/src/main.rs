@@ -40,7 +40,7 @@ fn move_player(
     velocity.y = (input.pressed(KeyCode::Up) as i32
         - input.pressed(KeyCode::Down) as i32) as f32;
 
-    if velocity.length() <= 0.0 {
+    if velocity == Vec3::ZERO {
         return;
     }
 
