@@ -175,7 +175,7 @@ fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
         .insert_resource(WindowDescriptor {
-            title: "Hello Sprite".to_string(),
+            title: "Move Animated Character".to_string(),
             width: 640.0,
             height: 480.0,
             resizable: false,
