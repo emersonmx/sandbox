@@ -146,9 +146,9 @@ fn change_animation(
     {
         let row = *direction as usize;
 
-        command.entity(entity).remove::<Play>();
         if *character_state == CharacterState::Idle {
             sprite.index = row * SPRITESHEET_SIZE.1;
+            command.entity(entity).remove::<Play>();
             continue;
         }
 
