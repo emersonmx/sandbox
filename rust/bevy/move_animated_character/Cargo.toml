@@ -1,5 +1,5 @@
 [package]
-name = "move_animated_sprite"
+name = "move_animated_character"
 version = "0.1.0"
 edition = "2021"
 
