@@ -2,6 +2,7 @@ use bevy::{
     core::FixedTimestep, input::system::exit_on_esc_system, prelude::*,
 };
 
+const TILE_SIZE: usize = 64;
 const TIME_STEP: f32 = 1.0 / 60.0;
 
 fn main() {
@@ -34,11 +35,28 @@ struct Player {
 fn setup(mut command: Commands, asset_server: Res<AssetServer>) {
     command.spawn_bundle(OrthographicCameraBundle::new_2d());
 
+    for i in -4..=4 {
+        for j in -5..=5 {
+            command.spawn_bundle(SpriteBundle {
+                texture: asset_server.load("ground.png"),
+                transform: Transform {
+                    translation: Vec3::new(
+                        (TILE_SIZE as i32 * j) as f32,
+                        (TILE_SIZE as i32 * i) as f32,
+                        0.0,
+                    ),
+                    ..Default::default()
+                },
+                ..Default::default()
+            });
+        }
+    }
+
     command
         .spawn_bundle(SpriteBundle {
-            texture: asset_server.load("sprite.png"),
+            texture: asset_server.load("player.png"),
             transform: Transform {
-                translation: Vec3::new(0.0, 0.0, 0.0),
+                translation: Vec3::new(0.0, 0.0, 1.0),
                 ..Default::default()
             },
             ..Default::default()

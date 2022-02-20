@@ -6,6 +6,7 @@ use bevy::{
 };
 
 const TIME_STEP: f32 = 1.0 / 60.0;
+const TILE_SIZE: usize = 64;
 const SPRITESHEET_SIZE: (usize, usize) = (3, 4);
 
 fn main() {
@@ -26,6 +27,7 @@ fn main() {
             create_player_animations,
         )
         .add_startup_system(setup_camera)
+        .add_startup_system(setup_ground)
         .add_startup_system(setup_player)
         .add_system_set(
             SystemSet::new()
@@ -104,16 +106,35 @@ fn setup_camera(mut command: Commands) {
     command.spawn_bundle(OrthographicCameraBundle::new_2d());
 }
 
+fn setup_ground(mut command: Commands, asset_server: Res<AssetServer>) {
+    for i in -4..=4 {
+        for j in -5..=5 {
+            command.spawn_bundle(SpriteBundle {
+                texture: asset_server.load("ground.png"),
+                transform: Transform {
+                    translation: Vec3::new(
+                        (TILE_SIZE as i32 * j) as f32,
+                        (TILE_SIZE as i32 * i) as f32,
+                        0.0,
+                    ),
+                    ..Default::default()
+                },
+                ..Default::default()
+            });
+        }
+    }
+}
+
 fn setup_player(
     mut command: Commands,
     asset_server: Res<AssetServer>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
     animations: ResMut<PlayerAnimations>,
 ) {
-    let texture_handle = asset_server.load("player/spritesheet.png");
+    let texture_handle = asset_server.load("player_spritesheet.png");
     let texture_atlas = TextureAtlas::from_grid(
         texture_handle,
-        Vec2::splat(64.0),
+        Vec2::splat(TILE_SIZE as f32),
         SPRITESHEET_SIZE.0,
         SPRITESHEET_SIZE.1,
     );
@@ -127,6 +148,10 @@ fn setup_player(
         animation: animations.down.clone(),
         spritesheet: SpriteSheetBundle {
             texture_atlas: texture_atlas_handle,
+            transform: Transform {
+                translation: Vec3::new(0.0, 0.0, 1.0),
+                ..Default::default()
+            },
             ..Default::default()
         },
     });
