@@ -6,4 +6,5 @@ members = [
     "move_square",
     "move_sprite",
     "move_animated_character",
+    "simple_grid_move",
 ]
