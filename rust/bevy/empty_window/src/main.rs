@@ -1,4 +1,4 @@
-use bevy::{prelude::*, input::system::exit_on_esc_system};
+use bevy::{input::system::exit_on_esc_system, prelude::*};
 
 fn main() {
     App::new()

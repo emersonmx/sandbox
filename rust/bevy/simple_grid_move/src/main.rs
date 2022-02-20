@@ -55,7 +55,7 @@ fn setup(mut command: Commands, asset_server: Res<AssetServer>) {
 
     command
         .spawn_bundle(SpriteBundle {
-            texture: asset_server.load("sprite.png"),
+            texture: asset_server.load("player.png"),
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 1.0),
                 ..Default::default()
