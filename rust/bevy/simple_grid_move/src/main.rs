@@ -63,7 +63,7 @@ fn setup(mut command: Commands, asset_server: Res<AssetServer>) {
             ..Default::default()
         })
         .insert(Position { x: 0, y: 0 })
-        .insert(MoveTimer(Timer::from_seconds(0.15, true)))
+        .insert(MoveTimer(Timer::from_seconds(0.15, false)))
         .insert(Player);
 }
 
@@ -73,21 +73,26 @@ fn move_player(
     mut query: Query<(&mut Position, &mut MoveTimer), With<Player>>,
 ) {
     for (mut position, mut move_timer) in query.iter_mut() {
-        if !move_timer.tick(time.delta()).just_finished() {
+        move_timer.tick(time.delta());
+        if !move_timer.finished() {
             continue;
         }
 
         if input.pressed(KeyCode::Left) {
             position.x -= 1;
+            move_timer.reset();
         }
         if input.pressed(KeyCode::Right) {
             position.x += 1;
+            move_timer.reset();
         }
         if input.pressed(KeyCode::Up) {
             position.y += 1;
+            move_timer.reset();
         }
         if input.pressed(KeyCode::Down) {
             position.y -= 1;
+            move_timer.reset();
         }
     }
 }
