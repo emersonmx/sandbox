@@ -1,4 +1,5 @@
 use bevy::{input::system::exit_on_esc_system, prelude::*};
+use derive_more::{Deref, DerefMut};
 
 const TILE_SIZE: usize = 64;
 
@@ -29,7 +30,7 @@ struct Position {
     y: i32,
 }
 
-#[derive(Component)]
+#[derive(Component, Deref, DerefMut)]
 struct MoveTimer(Timer);
 
 fn setup(mut command: Commands, asset_server: Res<AssetServer>) {
@@ -72,7 +73,7 @@ fn move_player(
     mut query: Query<(&mut Position, &mut MoveTimer), With<Player>>,
 ) {
     for (mut position, mut move_timer) in query.iter_mut() {
-        if !move_timer.0.tick(time.delta()).just_finished() {
+        if !move_timer.tick(time.delta()).just_finished() {
             continue;
         }
 
