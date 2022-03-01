@@ -7,13 +7,4 @@ edition = "2021"
 
 [dependencies]
 benimator = "2.0.1"
-
-[dependencies.bevy]
-version = "0.6"
-default-features = false
-features = [
-    "render",
-    "bevy_winit",
-    "x11",
-    "png",
-]
+bevy = "0.6"
