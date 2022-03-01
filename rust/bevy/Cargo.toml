@@ -9,3 +9,6 @@ members = [
     "simple_grid_move",
     "simple_tilemap",
 ]
+
+[profile.dev.package."*"]
+opt-level = 3
