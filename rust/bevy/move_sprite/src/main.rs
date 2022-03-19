@@ -32,12 +32,12 @@ struct Player {
     speed: f32,
 }
 
-fn setup(mut command: Commands, asset_server: Res<AssetServer>) {
-    command.spawn_bundle(OrthographicCameraBundle::new_2d());
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 
     for i in -4..=4 {
         for j in -5..=5 {
-            command.spawn_bundle(SpriteBundle {
+            commands.spawn_bundle(SpriteBundle {
                 texture: asset_server.load("ground.png"),
                 transform: Transform {
                     translation: Vec3::new(
@@ -52,7 +52,7 @@ fn setup(mut command: Commands, asset_server: Res<AssetServer>) {
         }
     }
 
-    command
+    commands
         .spawn_bundle(SpriteBundle {
             texture: asset_server.load("player.png"),
             transform: Transform {

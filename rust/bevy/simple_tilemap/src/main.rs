@@ -53,16 +53,16 @@ fn setup_tilesheet(
     *tilesheet = texture_atlases.add(texture_atlas);
 }
 
-fn setup_camera(mut command: Commands) {
+fn setup_camera(mut commands: Commands) {
     let mut camera = OrthographicCameraBundle::new_2d();
     camera.transform.scale = Vec3::splat(1.5);
-    command.spawn_bundle(camera);
+    commands.spawn_bundle(camera);
 }
 
-fn setup_map(mut command: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
+fn setup_map(mut commands: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
     for i in -4..=4 {
         for j in -5..=5 {
-            command.spawn_bundle(SpriteSheetBundle {
+            commands.spawn_bundle(SpriteSheetBundle {
                 texture_atlas: tilesheet.clone(),
                 sprite: TextureAtlasSprite {
                     index: 89,
@@ -80,7 +80,7 @@ fn setup_map(mut command: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
             });
 
             if i == -4 || i == 4 || j == -5 || j == 5 {
-                command.spawn_bundle(SpriteSheetBundle {
+                commands.spawn_bundle(SpriteSheetBundle {
                     texture_atlas: tilesheet.clone(),
                     sprite: TextureAtlasSprite {
                         index: 98,
@@ -101,8 +101,8 @@ fn setup_map(mut command: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
     }
 }
 
-fn setup_player(mut command: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
-    command
+fn setup_player(mut commands: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
+    commands
         .spawn_bundle(SpriteSheetBundle {
             texture_atlas: tilesheet.clone(),
             sprite: TextureAtlasSprite {

@@ -31,10 +31,10 @@ struct Player {
     speed: f32,
 }
 
-fn setup(mut command: Commands) {
-    command.spawn_bundle(OrthographicCameraBundle::new_2d());
+fn setup(mut commands: Commands) {
+    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 
-    command
+    commands
         .spawn_bundle(SpriteBundle {
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 0.0),
