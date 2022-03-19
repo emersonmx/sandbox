@@ -102,14 +102,14 @@ fn create_player_animations(
     ));
 }
 
-fn setup_camera(mut command: Commands) {
-    command.spawn_bundle(OrthographicCameraBundle::new_2d());
+fn setup_camera(mut commands: Commands) {
+    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 }
 
-fn setup_ground(mut command: Commands, asset_server: Res<AssetServer>) {
+fn setup_ground(mut commands: Commands, asset_server: Res<AssetServer>) {
     for i in -4..=4 {
         for j in -5..=5 {
-            command.spawn_bundle(SpriteBundle {
+            commands.spawn_bundle(SpriteBundle {
                 texture: asset_server.load("ground.png"),
                 transform: Transform {
                     translation: Vec3::new(
@@ -126,7 +126,7 @@ fn setup_ground(mut command: Commands, asset_server: Res<AssetServer>) {
 }
 
 fn setup_player(
-    mut command: Commands,
+    mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
     animations: ResMut<PlayerAnimations>,
@@ -140,7 +140,7 @@ fn setup_player(
     );
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
 
-    command.spawn_bundle(PlayerBundle {
+    commands.spawn_bundle(PlayerBundle {
         speed: Speed(300.0),
         character_state: CharacterState::Idle,
         direction: Direction::Down,
@@ -197,7 +197,7 @@ fn move_player(
 }
 
 fn change_animation(
-    mut command: Commands,
+    mut commands: Commands,
     animations: Res<PlayerAnimations>,
     mut query: Query<(
         Entity,
@@ -214,11 +214,11 @@ fn change_animation(
 
         if *character_state == CharacterState::Idle {
             sprite.index = row * SPRITESHEET_SIZE.0;
-            command.entity(entity).remove::<Play>();
+            commands.entity(entity).remove::<Play>();
             continue;
         }
 
-        command.entity(entity).insert(Play);
+        commands.entity(entity).insert(Play);
 
         *animation = match direction {
             Direction::Up => animations.up.clone(),
