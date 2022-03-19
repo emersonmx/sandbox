@@ -24,19 +24,11 @@ const PRESSED_BUTTON: Color = Color::rgb(0.0, 0.40, 0.0);
 fn setup(mut commands: Commands) {
     commands.spawn_bundle(UiCameraBundle::default());
 
-    let full_size = Size::new(Val::Percent(100.0), Val::Percent(100.0));
-    let base_style = Style {
-        align_items: AlignItems::Center,
-        justify_content: JustifyContent::Center,
-        size: full_size,
-        ..Default::default()
-    };
-
     commands
         .spawn_bundle(NodeBundle {
             style: Style {
-                size: full_size,
                 flex_direction: FlexDirection::ColumnReverse,
+                flex_grow: 1.0,
                 ..Default::default()
             },
             ..Default::default()
@@ -45,13 +37,21 @@ fn setup(mut commands: Commands) {
             for _ in 0..3 {
                 parent
                     .spawn_bundle(NodeBundle {
-                        style: base_style.clone(),
+                        style: Style {
+                            flex_grow: 1.0,
+                            ..Default::default()
+                        },
                         ..Default::default()
                     })
                     .with_children(|parent| {
                         for _ in 0..3 {
                             parent.spawn_bundle(ButtonBundle {
-                                style: base_style.clone(),
+                                style: Style {
+                                    align_items: AlignItems::Center,
+                                    justify_content: JustifyContent::Center,
+                                    flex_grow: 1.0,
+                                    ..Default::default()
+                                },
                                 color: NORMAL_BUTTON.into(),
                                 ..Default::default()
                             });
@@ -61,6 +61,7 @@ fn setup(mut commands: Commands) {
         });
 }
 
+#[allow(clippy::type_complexity)]
 fn button_system(
     mut interaction_query: Query<
         (&Interaction, &mut UiColor),
