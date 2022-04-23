@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, window::PresentMode};
 
 fn main() {
     App::new()
@@ -8,7 +8,7 @@ fn main() {
             width: 640.0,
             height: 480.0,
             resizable: false,
-            vsync: true,
+            present_mode: PresentMode::Immediate,
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
