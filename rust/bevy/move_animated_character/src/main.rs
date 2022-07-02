@@ -105,7 +105,7 @@ fn setup_ground(mut commands: Commands, asset_server: Res<AssetServer>) {
     for i in -4..=4 {
         for j in -5..=5 {
             commands.spawn_bundle(SpriteBundle {
-                texture: asset_server.load("ground.png"),
+                texture: asset_server.load("ground/ground_06.png"),
                 transform: Transform {
                     translation: Vec3::new(
                         (TILE_SIZE as i32 * j) as f32,
@@ -126,7 +126,7 @@ fn setup_player(
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
     animations: ResMut<PlayerAnimations>,
 ) {
-    let texture_handle = asset_server.load("player_spritesheet.png");
+    let texture_handle = asset_server.load("player/spritesheet.png");
     let texture_atlas = TextureAtlas::from_grid(
         texture_handle,
         Vec2::splat(TILE_SIZE as f32),

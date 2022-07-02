@@ -39,7 +39,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     for i in -4..=4 {
         for j in -5..=5 {
             commands.spawn_bundle(SpriteBundle {
-                texture: asset_server.load("ground.png"),
+                texture: asset_server.load("ground/ground_03.png"),
                 transform: Transform {
                     translation: Vec3::new(
                         (TILE_SIZE as i32 * j) as f32,
@@ -55,7 +55,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     commands
         .spawn_bundle(SpriteBundle {
-            texture: asset_server.load("player.png"),
+            texture: asset_server.load("player/face.png"),
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 1.0),
                 ..Default::default()
