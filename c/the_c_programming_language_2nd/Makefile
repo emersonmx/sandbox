@@ -8,8 +8,8 @@ binfiles = $(patsubst %.c,%,$(sourcefiles))
 
 all: $(binfiles)
 
-format: $(sourcefiles)
-	clang-format -i $^
+format:
+	clang-format -i *.c
 
 clean: $(binfiles)
 	rm -f $^
