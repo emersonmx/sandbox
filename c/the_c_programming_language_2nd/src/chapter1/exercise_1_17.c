@@ -9,7 +9,7 @@ int getline(char line[], int maxline);
 
 int main()
 {
-    int len;
+    int  len;
     char line[MAXLINE];
 
     while ((len = getline(line, MAXLINE)) > 0)

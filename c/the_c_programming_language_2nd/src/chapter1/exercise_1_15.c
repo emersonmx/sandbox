@@ -8,7 +8,7 @@ float fahrenheit_to_celsius(float value);
 int main()
 {
     float fahr, celsius;
-    int lower, upper, step;
+    int   lower, upper, step;
 
     lower = 0;
     upper = 300;
