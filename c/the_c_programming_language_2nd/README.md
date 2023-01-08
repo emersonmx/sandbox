@@ -1,4 +1,4 @@
-# Codes from the book "The programming language C - 2nd edition"
+# Codes from book "The programming language C - 2nd edition"
 
 The requirements are:
 
