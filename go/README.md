@@ -1,5 +1,4 @@
 # Go
 
-Por mais que eu goste da ideia de ter uma linguagem que seja prática como
-Python, porém compilada. Eu ainda não consigo ver muito uso pra fazer as minhas
-coisas.
+As much as I like the idea of having a language that is practical like
+Python, however compiled. I still can't see much use for doing my projects.
