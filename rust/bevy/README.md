@@ -1,3 +1,3 @@
 # Bevy
 
-Projetos usando a [Bevy Engine](https://bevyengine.org/).
+Projects using [Bevy Engine](https://bevyengine.org/).
