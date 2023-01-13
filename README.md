@@ -1,7 +1,7 @@
 # sandbox
 
-Este é meu repositório de caixa de areia 😀
+This is my sandbox repository 😀
 
-Espere encontrar todo tipo de coisa aqui, especialmente gambiarras. Pode ser
-que tenha algum projeto bunitim, mas isso vai ser raro. Então se for curiar,
-teje avisado.
+Expect to find all sorts of things here, especially workarounds. It might be
+that has some good project, but that will be rare. So if you're curious,
+be warned.
