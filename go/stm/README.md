@@ -1,8 +1,8 @@
 # stm
 
-Essa é apenas uma ferramenta que eu uso para instalar as minhas coisas. A
-versão atual está em https://github.com/emersonmx/stm, mas eu coloquei aqui,
-pois essa ferramenta é um brinquedo.
+This is just a tool I use to install my stuff. The current version is at
+[https://github.com/emersonmx/stm](https://github.com/emersonmx/stm),
+but i put it here, this tool is a toy.
 
 ## Instalação
 
@@ -13,18 +13,18 @@ go install
 ## Uso
 
 ```sh
-# Mostrar os managers diponíveis
+# Show available managers
 stm list
 
-# Instalar os pacotes de um manager
+# Install packages from a manager
 stm install <manager>
 
-# Atualizar os pacotes de um manager
+# Update a manager's packages
 stm update <manager>
 ```
 
 ## Conclusão
 
-Por mais interessante que seja programar em Go, ainda assim é muito esquisito.
-Teve horas que dava agunia não ter um filter() ou map() da vida. Eu não consigo
-pensar onde que eu poderia usar essa linguagem.
+As interesting as programming in Go is, it's still pretty weird. There
+were times when it hurt not to have a `filter()` or `map()` in my life. I
+can not think where I could use this language.
