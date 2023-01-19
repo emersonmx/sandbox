@@ -14,7 +14,7 @@ void itoa(int n, char s[]);
 
 int main()
 {
-    int  n;
+    int n;
     char s[MAXSIZE];
 
     n = -2147483648;

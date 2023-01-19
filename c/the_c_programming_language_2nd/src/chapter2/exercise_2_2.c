@@ -8,8 +8,8 @@
 
 int main()
 {
-    int  c;
-    int  lim = 20;
+    int c;
+    int lim = 20;
     char s[lim];
 
     for (int i = 0; i < lim - 1; ++i) {

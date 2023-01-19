@@ -19,7 +19,7 @@ int main()
 unsigned setbits(unsigned x, int p, int n, unsigned y)
 {
     unsigned base = ~(~0 << n);
-    int      length = p + 1 - n;
+    int length = p + 1 - n;
 
     return (x & ~(base << length)) | (y & base << length);
 }

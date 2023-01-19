@@ -6,14 +6,14 @@
 
 #define MAXLINE 1000 // maximum input line size
 
-int  getline(char line[], int maxline);
+int getline(char line[], int maxline);
 void copy(char to[], char from[]);
 
 // print longest input line
 int main()
 {
-    int  len; // current line length
-    int  max; // maximum length seen so far
+    int len; // current line length
+    int max; // maximum length seen so far
     char line[MAXLINE]; // current input line
     char longest[MAXLINE]; // longest line saved here
 
