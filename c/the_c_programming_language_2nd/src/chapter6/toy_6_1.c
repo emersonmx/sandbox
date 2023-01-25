@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 struct {
-    unsigned int is_keyword : 1;
-    unsigned int is_extern : 1;
-    unsigned int is_static : 1;
+    unsigned char is_keyword : 1;
+    unsigned char is_extern : 1;
+    unsigned char is_static : 1;
 } flags;
 
 int main()
