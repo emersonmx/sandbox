@@ -1,18 +1,25 @@
 package tictactoe;
 
-import java.util.Arrays;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     private static char[][] board;
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("> ");
-        String input = scanner.nextLine();
+        String input = getInput("> ");
         setupBoard(input);
         showBoard();
-        checkGameOver();
+        checkPlayerInput();
+        showBoard();
+        // checkGameOver();
+    }
+
+    public static String getInput(String message) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(message);
+        return scanner.nextLine();
     }
 
     public static void setupBoard(String input) {
@@ -35,6 +42,44 @@ public class Main {
             System.out.println("|");
         }
         System.out.println("---------");
+    }
+
+    public static void checkPlayerInput() {
+        while (true) {
+            String input = getInput("> ");
+            int[] inputs = toInputArray(input);
+            if (inputs == null) {
+                System.out.println("You should enter numbers!");
+                continue;
+            }
+
+            int i = inputs[0] - 1;
+            int j = inputs[1] - 1;
+            if (i < 0 || i > 2 || j < 0 || j > 2) {
+                System.out.println("Coordinates should be from 1 to 3!");
+                continue;
+            }
+
+            if (!isEmptyCell(i, j)) {
+                System.out.println("This cell is occupied! Choose another one!");
+                continue;
+            }
+
+            board[i][j] = 'X';
+            break;
+        }
+    }
+
+    public static int[] toInputArray(String input) {
+        Pattern pattern = Pattern.compile("^\\s*(\\d+)\\s+(\\d+)\\s*$");
+        Matcher match = pattern.matcher(input);
+        if (match.matches()) {
+            return new int[] {
+                    Integer.parseInt(match.group(1)),
+                    Integer.parseInt(match.group(2)),
+            };
+        }
+        return null;
     }
 
     public static void checkGameOver() {
@@ -108,12 +153,16 @@ public class Main {
     public static boolean hasEmptyCells() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                char c = board[i][j];
-                if (c == ' ' || c == '_') {
+                if (isEmptyCell(i, j)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public static boolean isEmptyCell(int i, int j) {
+        char c = board[i][j];
+        return c == ' ' || c == '_';
     }
 }
