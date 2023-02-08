@@ -1,28 +1,26 @@
 package tictactoe;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
     private static char[][] board;
+    private static char currentPlayer = 'X';
+    private static boolean running = true;
 
     public static void main(String[] args) {
-        String input = getInput("> ");
-        setupBoard(input);
-        showBoard();
-        checkPlayerInput();
-        showBoard();
-        // checkGameOver();
+        setupBoard();
+        while (running) {
+            showBoard();
+            checkPlayerInput();
+            checkGameOver();
+        }
     }
 
-    public static String getInput(String message) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(message);
-        return scanner.nextLine();
-    }
-
-    public static void setupBoard(String input) {
+    public static void setupBoard() {
+        String input = "         ";
         board = new char[3][3];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -65,9 +63,15 @@ public class Main {
                 continue;
             }
 
-            board[i][j] = 'X';
+            board[i][j] = currentPlayer;
             break;
         }
+    }
+
+    public static String getInput(String message) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(message);
+        return scanner.nextLine();
     }
 
     public static int[] toInputArray(String input) {
@@ -83,15 +87,20 @@ public class Main {
     }
 
     public static void checkGameOver() {
+        running = false;
         if (isImpossible()) {
             System.out.println("Impossible");
         } else if (isPlayerWon('X')) {
+            showBoard();
             System.out.println("X wins");
         } else if (isPlayerWon('O')) {
+            showBoard();
             System.out.println("O wins");
         } else if (hasEmptyCells()) {
-            System.out.println("Game not finished");
+            nextPlayer();
+            running = true;
         } else {
+            showBoard();
             System.out.println("Draw");
         }
     }
@@ -117,23 +126,23 @@ public class Main {
     }
 
     public static boolean isPlayerWon(char player) {
-        int[][][] nrows = {
+        int[][][] rows = {
                 // Rows
                 { { 0, 0 }, { 0, 1 }, { 0, 2 } },
                 { { 1, 0 }, { 1, 1 }, { 1, 2 } },
                 { { 2, 0 }, { 2, 1 }, { 2, 2 } },
 
                 // Columns
-                { { 0, 0 }, { 0, 1 }, { 0, 2 } },
-                { { 1, 0 }, { 1, 1 }, { 1, 2 } },
-                { { 2, 0 }, { 2, 1 }, { 2, 2 } },
+                { { 0, 0 }, { 1, 0 }, { 2, 0 } },
+                { { 0, 1 }, { 1, 1 }, { 2, 1 } },
+                { { 0, 2 }, { 1, 2 }, { 2, 2 } },
 
                 // Diagonals
                 { { 0, 0 }, { 1, 1 }, { 2, 2 } },
                 { { 0, 2 }, { 1, 1 }, { 2, 0 } },
         };
 
-        for (int[][] row : nrows) {
+        for (int[][] row : rows) {
             int[] a = row[0];
             int[] b = row[1];
             int[] c = row[2];
@@ -164,5 +173,13 @@ public class Main {
     public static boolean isEmptyCell(int i, int j) {
         char c = board[i][j];
         return c == ' ' || c == '_';
+    }
+
+    public static void nextPlayer() {
+        if (currentPlayer == 'X') {
+            currentPlayer = 'O';
+        } else {
+            currentPlayer = 'X';
+        }
     }
 }
