@@ -1,11 +1,9 @@
-package tictactoe;
-
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main {
+public class TicTacToe {
     private static char[][] board;
     private static char currentPlayer = 'X';
     private static boolean running = true;
