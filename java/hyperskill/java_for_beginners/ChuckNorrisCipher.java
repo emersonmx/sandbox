@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class ChuckNorrisCipherEncoder {
+public class ChuckNorrisCipher {
     public static void main(String[] args) {
         boolean running = true;
         while (running) {
