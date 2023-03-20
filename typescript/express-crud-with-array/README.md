@@ -1,25 +1,24 @@
 # Express CRUD with array
 
-Esse projeto é apenas uma simples API usando Express. Nada de conexão com
-banco, padrões de projeto, nem qualquer coisa complicada. Só vendo como
-funciona o Express. Então vamos seguindo.
+This project is a simple API using Express. No database, design patterns or
+anything. Just Express and nothing more.
 
 ## Setup
 
-Só rodar os comandos abaixo para instalar e iniciar o servidor na URL
-http://localhost:3000.
+Run the following commands to install and start the Express server at
+[http://localhost:3000](http://localhost:3000).
 
 ```sh
 yarn
 yarn dev:server
 ```
 
-## Implementação
+## Code
 
-A implementação foi o mais besta possível. O "banco" é apenas um `array` e não
-há validação dos dados da requisão, mas isso não importa 😁.
+The code is the most simple possible. The "database" is just an `array` and it
+doesn't have data validation at requests.
 
-Segue as rotas implementadas:
+Here are the available routes:
 
 ```
 GET /users
@@ -29,31 +28,30 @@ PUT /users/:id
 DELETE /users/:id
 ```
 
-## Testando
+## Testing
 
-Você pode realizar as requisições usando o que quiser, mas aqui vou usar o
+Use any HTTP client that you like, but here I will use
 [HTTPie](https://httpie.org/).
 
-Segue exemplos:
+Examples:
 
 ```sh
-# Criar dois usuários
+# Create a user
 http post http://localhost:3000/users name='John Doe' email=johndoe@example.com
 
-# Mostra todos os usuários
+# List all users
 http get http://localhost:3000/users
 
-# Mostra o usuário com id 1
+# Show user with ID 1
 http get http://localhost:3000/users/1
 
-# Atualiza o nome do usuário com o id 1
+# Update the name of user with ID 1
 http put http://localhost:3000/users/1 name="John"
 
-# Apaga o usuário 1
+# Delete user with ID 1
 http delete http://localhost:3000/users/1
 ```
 
-## Conclusão
+## Conclusion
 
-A lição desse projeto era apenas ver como funciona o Express. Então nada muito
-complicado.
+This project is just a test to see how Express works. So nothing complex to see.
