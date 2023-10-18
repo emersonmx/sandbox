@@ -10,7 +10,15 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
+from fastapi import FastAPI
+
+from api import router as api_router
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djfast_polls.settings")
 
-application = get_asgi_application()
+django_app = get_asgi_application()
+
+app = FastAPI(title="djfast-polls")
+
+app.include_router(api_router, prefix="/api")
+app.mount("/", django_app)
