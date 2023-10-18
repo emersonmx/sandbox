@@ -12,7 +12,7 @@ import os
 from django.core.asgi import get_asgi_application
 from fastapi import FastAPI
 
-from api import router as api_router
+from api.routes import router as api_router
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djfast_polls.settings")
 
