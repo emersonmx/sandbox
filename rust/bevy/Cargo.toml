@@ -6,7 +6,7 @@ members = [
   "move_sprite",
   "move_square",
   "simple_grid_move",
-  # "simple_mouse_grab",
+  "simple_mouse_grab",
   "simple_tilemap",
   # "simple_ui",
 ]

@@ -1,33 +1,38 @@
-use bevy::{prelude::*, window::PresentMode};
+use bevy::{
+    prelude::*,
+    window::PrimaryWindow,
+    window::{CursorGrabMode, PresentMode},
+};
 
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
-        .insert_resource(WindowDescriptor {
-            title: "Simple Mouse Grab".to_string(),
-            width: 640.0,
-            height: 480.0,
-            resizable: false,
-            present_mode: PresentMode::Immediate,
-            ..Default::default()
-        })
-        .add_plugins(DefaultPlugins)
-        .add_system(toggle_grab)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Simple Mouse Grab".to_string(),
+                resolution: (640.0, 480.0).into(),
+                resizable: false,
+                present_mode: PresentMode::Immediate,
+                ..default()
+            }),
+            ..default()
+        }))
+        .add_systems(Update, toggle_grab)
         .run();
 }
 
 fn toggle_grab(
-    mut windows: ResMut<Windows>,
     mouse: Res<Input<MouseButton>>,
     key: Res<Input<KeyCode>>,
+    mut primary_query: Query<&mut Window, With<PrimaryWindow>>,
 ) {
-    let window = windows.get_primary_mut().unwrap();
+    let mut window = primary_query.single_mut();
     if mouse.just_pressed(MouseButton::Left) {
-        window.set_cursor_visibility(false);
-        window.set_cursor_lock_mode(true);
+        window.cursor.visible = false;
+        window.cursor.grab_mode = CursorGrabMode::Locked;
     }
     if key.just_pressed(KeyCode::Escape) {
-        window.set_cursor_visibility(true);
-        window.set_cursor_lock_mode(false);
+        window.cursor.visible = true;
+        window.cursor.grab_mode = CursorGrabMode::None;
     }
 }
