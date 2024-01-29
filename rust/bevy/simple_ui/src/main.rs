@@ -1,19 +1,22 @@
-use bevy::{input::system::exit_on_esc_system, prelude::*};
+use bevy::{prelude::*, window::close_on_esc, window::PresentMode, winit::WinitSettings};
 
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
-        .insert_resource(WindowDescriptor {
-            title: "Simple UI".to_string(),
-            width: 500.0,
-            height: 500.0,
-            resizable: false,
-            ..Default::default()
-        })
-        .add_plugins(DefaultPlugins)
-        .add_startup_system(setup)
-        .add_system(button_system)
-        .add_system(exit_on_esc_system)
+        .insert_resource(WinitSettings::desktop_app())
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Simple UI".to_string(),
+                resolution: (640.0, 480.0).into(),
+                resizable: false,
+                present_mode: PresentMode::Immediate,
+                ..default()
+            }),
+            ..default()
+        }))
+        .add_systems(Startup, setup)
+        .add_systems(Update, button_system)
+        .add_systems(Update, close_on_esc)
         .run();
 }
 
@@ -22,38 +25,38 @@ const HOVERED_BUTTON: Color = Color::rgb(0.20, 0.80, 0.20);
 const PRESSED_BUTTON: Color = Color::rgb(0.0, 0.40, 0.0);
 
 fn setup(mut commands: Commands) {
-    commands.spawn_bundle(UiCameraBundle::default());
+    commands.spawn(Camera2dBundle::default());
 
     commands
-        .spawn_bundle(NodeBundle {
+        .spawn(NodeBundle {
             style: Style {
                 flex_direction: FlexDirection::ColumnReverse,
                 flex_grow: 1.0,
-                ..Default::default()
+                ..default()
             },
-            ..Default::default()
+            ..default()
         })
         .with_children(|parent| {
             for _ in 0..3 {
                 parent
-                    .spawn_bundle(NodeBundle {
+                    .spawn(NodeBundle {
                         style: Style {
                             flex_grow: 1.0,
-                            ..Default::default()
+                            ..default()
                         },
-                        ..Default::default()
+                        ..default()
                     })
                     .with_children(|parent| {
                         for _ in 0..3 {
-                            parent.spawn_bundle(ButtonBundle {
+                            parent.spawn(ButtonBundle {
                                 style: Style {
                                     align_items: AlignItems::Center,
                                     justify_content: JustifyContent::Center,
                                     flex_grow: 1.0,
-                                    ..Default::default()
+                                    ..default()
                                 },
-                                color: NORMAL_BUTTON.into(),
-                                ..Default::default()
+                                background_color: NORMAL_BUTTON.into(),
+                                ..default()
                             });
                         }
                     });
@@ -64,13 +67,13 @@ fn setup(mut commands: Commands) {
 #[allow(clippy::type_complexity)]
 fn button_system(
     mut interaction_query: Query<
-        (&Interaction, &mut UiColor),
+        (&Interaction, &mut BackgroundColor),
         (Changed<Interaction>, With<Button>),
     >,
 ) {
-    for (interaction, mut color) in interaction_query.iter_mut() {
+    for (interaction, mut color) in &mut interaction_query {
         match *interaction {
-            Interaction::Clicked => {
+            Interaction::Pressed => {
                 *color = PRESSED_BUTTON.into();
             }
             Interaction::Hovered => {
