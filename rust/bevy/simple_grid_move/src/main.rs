@@ -1,22 +1,26 @@
-use bevy::{input::system::exit_on_esc_system, prelude::*};
+use std::time::Duration;
+
+use bevy::{prelude::*, window::close_on_esc, window::PresentMode};
 
 const TILE_SIZE: usize = 64;
 
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
-        .insert_resource(WindowDescriptor {
-            title: "Simple Grid Move".to_string(),
-            width: 640.0,
-            height: 480.0,
-            resizable: false,
-            ..Default::default()
-        })
-        .add_plugins(DefaultPlugins)
-        .add_startup_system(setup)
-        .add_system(move_player)
-        .add_system(convert_position_to_translation)
-        .add_system(exit_on_esc_system)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Move Sprite".to_string(),
+                resolution: (640.0, 480.0).into(),
+                resizable: false,
+                present_mode: PresentMode::Immediate,
+                ..default()
+            }),
+            ..default()
+        }))
+        .add_systems(Startup, setup)
+        .add_systems(Update, move_player)
+        .add_systems(Update, convert_position_to_translation)
+        .add_systems(Update, close_on_esc)
         .run();
 }
 
@@ -33,11 +37,11 @@ struct Position {
 struct MoveTimer(Timer);
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
+    commands.spawn(Camera2dBundle::default());
 
     for i in -4..=4 {
         for j in -5..=5 {
-            commands.spawn_bundle(SpriteBundle {
+            commands.spawn(SpriteBundle {
                 texture: asset_server.load("ground/ground_03.png"),
                 transform: Transform {
                     translation: Vec3::new(
@@ -53,7 +57,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     }
 
     commands
-        .spawn_bundle(SpriteBundle {
+        .spawn(SpriteBundle {
             texture: asset_server.load("player/face.png"),
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 1.0),
@@ -62,7 +66,10 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..Default::default()
         })
         .insert(Position { x: 0, y: 0 })
-        .insert(MoveTimer(Timer::from_seconds(0.15, false)))
+        .insert(MoveTimer(Timer::new(
+            Duration::from_secs_f32(0.15),
+            TimerMode::Repeating,
+        )))
         .insert(Player);
 }
 
