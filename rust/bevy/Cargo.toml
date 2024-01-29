@@ -8,7 +8,7 @@ members = [
   "simple_grid_move",
   "simple_mouse_grab",
   "simple_tilemap",
-  # "simple_ui",
+  "simple_ui",
 ]
 
 [profile.dev]
