@@ -1,28 +1,22 @@
-use bevy::{
-    core::FixedTimestep, input::system::exit_on_esc_system, prelude::*, window::PresentMode,
-};
-
-const TIME_STEP: f32 = 1.0 / 60.0;
+use bevy::{prelude::*, window::close_on_esc, window::PresentMode};
 
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
-        .insert_resource(WindowDescriptor {
-            title: "Move Square".to_string(),
-            width: 640.0,
-            height: 480.0,
-            resizable: false,
-            present_mode: PresentMode::Immediate,
-            ..Default::default()
-        })
-        .add_plugins(DefaultPlugins)
-        .add_startup_system(setup)
-        .add_system_set(
-            SystemSet::new()
-                .with_run_criteria(FixedTimestep::step(TIME_STEP as f64))
-                .with_system(move_player),
-        )
-        .add_system(exit_on_esc_system)
+        .insert_resource(Time::<Fixed>::from_hz(60.0))
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Move Square".to_owned(),
+                resolution: (640.0, 480.0).into(),
+                resizable: false,
+                present_mode: PresentMode::Immediate,
+                ..default()
+            }),
+            ..default()
+        }))
+        .add_systems(Startup, setup)
+        .add_systems(FixedUpdate, move_player)
+        .add_systems(Update, close_on_esc)
         .run();
 }
 
@@ -32,10 +26,10 @@ struct Player {
 }
 
 fn setup(mut commands: Commands) {
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
+    commands.spawn(Camera2dBundle::default());
 
     commands
-        .spawn_bundle(SpriteBundle {
+        .spawn(SpriteBundle {
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 0.0),
                 scale: Vec3::new(20.0, 20.0, 0.0),
@@ -50,7 +44,12 @@ fn setup(mut commands: Commands) {
         .insert(Player { speed: 200.0 });
 }
 
-fn move_player(input: Res<Input<KeyCode>>, mut query: Query<(&Player, &mut Transform)>) {
+fn move_player(
+    input: Res<Input<KeyCode>>,
+    fixed_time: Res<Time<Fixed>>,
+    mut query: Query<(&Player, &mut Transform)>,
+) {
+    let delta = fixed_time.delta().as_secs_f32();
     let (player, mut transform) = query.single_mut();
     let mut velocity = Vec3::ZERO;
 
@@ -62,5 +61,5 @@ fn move_player(input: Res<Input<KeyCode>>, mut query: Query<(&Player, &mut Trans
         return;
     }
 
-    transform.translation += velocity.normalize() * player.speed * TIME_STEP;
+    transform.translation += velocity.normalize() * player.speed * delta
 }
