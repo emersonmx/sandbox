@@ -3,7 +3,7 @@ resolver = "2"
 members = [
   "empty_window",
   # "move_animated_character",
-  # "move_sprite",
+  "move_sprite",
   "move_square",
   # "simple_grid_move",
   # "simple_mouse_grab",
