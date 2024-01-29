@@ -1,4 +1,6 @@
-use bevy::{input::system::exit_on_esc_system, prelude::*};
+use std::time::Duration;
+
+use bevy::{prelude::*, window::close_on_esc, window::PresentMode};
 
 const TILE_SIZE: usize = 64;
 const SPRITESHEET_SIZE: (usize, usize) = (13, 8);
@@ -6,22 +8,24 @@ const SPRITESHEET_SIZE: (usize, usize) = (13, 8);
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
-        .insert_resource(WindowDescriptor {
-            title: "Simple TileMap".to_string(),
-            width: 640.0,
-            height: 480.0,
-            resizable: false,
-            ..Default::default()
-        })
-        .init_resource::<Handle<TextureAtlas>>()
-        .add_plugins(DefaultPlugins)
-        .add_startup_system_to_stage(StartupStage::PreStartup, setup_tilesheet)
-        .add_startup_system(setup_camera)
-        .add_startup_system(setup_map)
-        .add_startup_system(setup_player)
-        .add_system(move_player)
-        .add_system(convert_position_to_translation)
-        .add_system(exit_on_esc_system)
+        .add_plugins(
+            DefaultPlugins
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "Simple TileMap".to_owned(),
+                        resolution: (640.0, 480.0).into(),
+                        resizable: false,
+                        present_mode: PresentMode::Immediate,
+                        ..default()
+                    }),
+                    ..default()
+                })
+                .set(ImagePlugin::default_nearest()),
+        )
+        .add_systems(Startup, setup)
+        .add_systems(Update, move_player)
+        .add_systems(Update, convert_position_to_translation)
+        .add_systems(Update, close_on_esc)
         .run();
 }
 
@@ -37,31 +41,29 @@ struct Position {
 #[derive(Component)]
 struct MoveTimer(Timer);
 
-fn setup_tilesheet(
+fn setup(
+    mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
-    mut tilesheet: ResMut<Handle<TextureAtlas>>,
 ) {
+    let mut camera = Camera2dBundle::default();
+    camera.transform.scale = Vec3::splat(1.5);
+    commands.spawn(camera);
+
     let texture_handle = asset_server.load("tilesheet.png");
     let texture_atlas = TextureAtlas::from_grid(
         texture_handle,
         Vec2::splat(TILE_SIZE as f32),
         SPRITESHEET_SIZE.0,
         SPRITESHEET_SIZE.1,
+        None,
+        None,
     );
-    *tilesheet = texture_atlases.add(texture_atlas);
-}
+    let tilesheet = texture_atlases.add(texture_atlas);
 
-fn setup_camera(mut commands: Commands) {
-    let mut camera = OrthographicCameraBundle::new_2d();
-    camera.transform.scale = Vec3::splat(1.5);
-    commands.spawn_bundle(camera);
-}
-
-fn setup_map(mut commands: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
     for i in -4..=4 {
         for j in -5..=5 {
-            commands.spawn_bundle(SpriteSheetBundle {
+            commands.spawn(SpriteSheetBundle {
                 texture_atlas: tilesheet.clone(),
                 sprite: TextureAtlasSprite {
                     index: 89,
@@ -79,7 +81,7 @@ fn setup_map(mut commands: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
             });
 
             if i == -4 || i == 4 || j == -5 || j == 5 {
-                commands.spawn_bundle(SpriteSheetBundle {
+                commands.spawn(SpriteSheetBundle {
                     texture_atlas: tilesheet.clone(),
                     sprite: TextureAtlasSprite {
                         index: 98,
@@ -98,11 +100,9 @@ fn setup_map(mut commands: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
             }
         }
     }
-}
 
-fn setup_player(mut commands: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
     commands
-        .spawn_bundle(SpriteSheetBundle {
+        .spawn(SpriteSheetBundle {
             texture_atlas: tilesheet.clone(),
             sprite: TextureAtlasSprite {
                 index: 72,
@@ -115,7 +115,10 @@ fn setup_player(mut commands: Commands, tilesheet: Res<Handle<TextureAtlas>>) {
             ..Default::default()
         })
         .insert(Position { x: 0, y: 0 })
-        .insert(MoveTimer(Timer::from_seconds(0.15, false)))
+        .insert(MoveTimer(Timer::new(
+            Duration::from_secs_f32(0.15),
+            TimerMode::Repeating,
+        )))
         .insert(Player);
 }
 
