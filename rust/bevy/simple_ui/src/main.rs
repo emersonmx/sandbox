@@ -30,8 +30,9 @@ fn setup(mut commands: Commands) {
     commands
         .spawn(NodeBundle {
             style: Style {
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
                 flex_direction: FlexDirection::ColumnReverse,
-                flex_grow: 1.0,
                 ..default()
             },
             ..default()
@@ -41,7 +42,8 @@ fn setup(mut commands: Commands) {
                 parent
                     .spawn(NodeBundle {
                         style: Style {
-                            flex_grow: 1.0,
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(100.0),
                             ..default()
                         },
                         ..default()
@@ -52,7 +54,8 @@ fn setup(mut commands: Commands) {
                                 style: Style {
                                     align_items: AlignItems::Center,
                                     justify_content: JustifyContent::Center,
-                                    flex_grow: 1.0,
+                                    width: Val::Percent(100.0),
+                                    height: Val::Percent(100.0),
                                     ..default()
                                 },
                                 background_color: NORMAL_BUTTON.into(),
