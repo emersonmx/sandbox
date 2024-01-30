@@ -67,7 +67,7 @@ fn setup(
                 texture_atlas: tilesheet.clone(),
                 sprite: TextureAtlasSprite {
                     index: 89,
-                    ..Default::default()
+                    ..default()
                 },
                 transform: Transform {
                     translation: Vec3::new(
@@ -75,9 +75,9 @@ fn setup(
                         (TILE_SIZE as i32 * i) as f32,
                         0.0,
                     ),
-                    ..Default::default()
+                    ..default()
                 },
-                ..Default::default()
+                ..default()
             });
 
             if i == -4 || i == 4 || j == -5 || j == 5 {
@@ -85,7 +85,7 @@ fn setup(
                     texture_atlas: tilesheet.clone(),
                     sprite: TextureAtlasSprite {
                         index: 98,
-                        ..Default::default()
+                        ..default()
                     },
                     transform: Transform {
                         translation: Vec3::new(
@@ -93,9 +93,9 @@ fn setup(
                             (TILE_SIZE as i32 * i) as f32,
                             1.0,
                         ),
-                        ..Default::default()
+                        ..default()
                     },
-                    ..Default::default()
+                    ..default()
                 });
             }
         }
@@ -106,13 +106,13 @@ fn setup(
             texture_atlas: tilesheet.clone(),
             sprite: TextureAtlasSprite {
                 index: 72,
-                ..Default::default()
+                ..default()
             },
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 1.0),
-                ..Default::default()
+                ..default()
             },
-            ..Default::default()
+            ..default()
         })
         .insert(Position { x: 0, y: 0 })
         .insert(MoveTimer(Timer::new(

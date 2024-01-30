@@ -33,13 +33,13 @@ fn setup(mut commands: Commands) {
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 0.0),
                 scale: Vec3::new(20.0, 20.0, 0.0),
-                ..Default::default()
+                ..default()
             },
             sprite: Sprite {
                 color: Color::rgb(0.9, 0.9, 0.9),
-                ..Default::default()
+                ..default()
             },
-            ..Default::default()
+            ..default()
         })
         .insert(Player { speed: 200.0 });
 }
