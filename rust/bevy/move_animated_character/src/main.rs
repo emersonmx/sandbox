@@ -20,19 +20,7 @@ fn main() {
         .add_systems(Startup, setup)
         .add_systems(Update, animate_sprite)
         .add_systems(Update, move_player)
-        // .add_systems(Update, change_animation)
         .add_systems(Update, close_on_esc)
-        // .add_startup_system_to_stage(StartupStage::PreStartup, create_player_animations)
-        // .add_systems(setup_camera)
-        // .add_systems(setup_ground)
-        // .add_systems(setup_player)
-        // .add_system_set(
-        //     SystemSet::new()
-        //         .with_run_criteria(FixedTimestep::step(TIME_STEP as f64))
-        //         .with_system(move_player),
-        // )
-        // .add_system(change_animation)
-        // .add_system(exit_on_esc_system)
         .run();
 }
 
@@ -47,14 +35,6 @@ enum CharacterState {
 
 #[derive(Component, Debug, Deref, DerefMut)]
 struct Speed(f32);
-
-#[derive(Component, Copy, Clone, Debug)]
-enum Direction {
-    Up,
-    Right,
-    Down,
-    Left,
-}
 
 #[derive(Component)]
 struct AnimationIndices(usize, usize);
@@ -93,7 +73,6 @@ fn setup(
         animation_indices,
         AnimationTimer(Timer::from_seconds(0.15, TimerMode::Repeating)),
         CharacterState::Idle,
-        Direction::Down,
     ));
 }
 
@@ -125,26 +104,22 @@ fn animate_sprite(
 fn move_player(
     time: Res<Time>,
     input: Res<Input<KeyCode>>,
-    mut query: Query<(&Speed, &mut CharacterState, &mut Direction, &mut Transform), With<Player>>,
+    mut query: Query<(&Speed, &mut CharacterState, &mut Transform), With<Player>>,
 ) {
-    for (speed, mut state, mut direction, mut transform) in query.iter_mut() {
+    for (speed, mut state, mut transform) in &mut query {
         let mut velocity = Vec3::ZERO;
 
         if input.pressed(KeyCode::Left) {
             velocity.x -= 1.0;
-            *direction = Direction::Left;
         }
         if input.pressed(KeyCode::Right) {
             velocity.x += 1.0;
-            *direction = Direction::Right;
         }
         if input.pressed(KeyCode::Up) {
             velocity.y += 1.0;
-            *direction = Direction::Up;
         }
         if input.pressed(KeyCode::Down) {
             velocity.y -= 1.0;
-            *direction = Direction::Down;
         }
 
         if velocity == Vec3::ZERO {
@@ -156,108 +131,3 @@ fn move_player(
         transform.translation += velocity.normalize() * speed.0 * time.delta_seconds();
     }
 }
-
-fn change_animation(
-    mut query: Query<(
-        &Direction,
-        &CharacterState,
-        &mut AnimationIndices,
-        &mut TextureAtlasSprite,
-    )>,
-) {
-    for (direction, state, mut indices, mut sprite) in &mut query {
-        if state == &CharacterState::Moving {
-            *indices = match direction {
-                Direction::Left => AnimationIndices(9, 11),
-                Direction::Right => AnimationIndices(3, 5),
-                Direction::Up => AnimationIndices(0, 2),
-                Direction::Down => AnimationIndices(6, 8),
-            };
-            sprite.index = indices.0;
-        }
-    }
-}
-
-// fn setup_ground(mut commands: Commands, asset_server: Res<AssetServer>) {
-//     for i in -4..=4 {
-//         for j in -5..=5 {
-//             commands.spawn_bundle(SpriteBundle {
-//                 texture: asset_server.load("ground/ground_06.png"),
-//                 transform: Transform {
-//                     translation: Vec3::new(
-//                         (TILE_SIZE as i32 * j) as f32,
-//                         (TILE_SIZE as i32 * i) as f32,
-//                         0.0,
-//                     ),
-//                     ..Default::default()
-//                 },
-//                 ..Default::default()
-//             });
-//         }
-//     }
-// }
-//
-// fn move_player(
-//     input: Res<Input<KeyCode>>,
-//     mut query: Query<(&Speed, &mut CharacterState, &mut Direction, &mut Transform), With<Player>>,
-// ) {
-//     for (&Speed(speed), mut state, mut direction, mut transform) in query.iter_mut() {
-//         let mut velocity = Vec3::ZERO;
-//
-//         if input.pressed(KeyCode::Left) {
-//             velocity.x -= 1.0;
-//             *direction = Direction::Left;
-//         }
-//         if input.pressed(KeyCode::Right) {
-//             velocity.x += 1.0;
-//             *direction = Direction::Right;
-//         }
-//         if input.pressed(KeyCode::Up) {
-//             velocity.y += 1.0;
-//             *direction = Direction::Up;
-//         }
-//         if input.pressed(KeyCode::Down) {
-//             velocity.y -= 1.0;
-//             *direction = Direction::Down;
-//         }
-//
-//         if velocity == Vec3::ZERO {
-//             *state = CharacterState::Idle;
-//             return;
-//         }
-//
-//         *state = CharacterState::Moving;
-//         transform.translation += velocity.normalize() * speed * TIME_STEP;
-//     }
-// }
-
-// fn change_animation(
-//     mut commands: Commands,
-//     animations: Res<PlayerAnimations>,
-//     mut query: Query<(
-//         Entity,
-//         &Direction,
-//         &CharacterState,
-//         &mut TextureAtlasSprite,
-//         &mut Handle<SpriteSheetAnimation>,
-//     )>,
-// ) {
-//     for (entity, direction, character_state, mut sprite, mut animation) in query.iter_mut() {
-//         let row = *direction as usize;
-//
-//         if *character_state == CharacterState::Idle {
-//             sprite.index = row * SPRITESHEET_SIZE.0;
-//             commands.entity(entity).remove::<Play>();
-//             continue;
-//         }
-//
-//         commands.entity(entity).insert(Play);
-//
-//         *animation = match direction {
-//             Direction::Up => animations.up.clone(),
-//             Direction::Right => animations.right.clone(),
-//             Direction::Down => animations.down.clone(),
-//             Direction::Left => animations.left.clone(),
-//         }
-//     }
-// }
