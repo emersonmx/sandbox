@@ -8,7 +8,7 @@ fn main() {
         .insert_resource(Time::<Fixed>::from_hz(60.0))
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
-                title: "Simple Grid Move".to_string(),
+                title: "Move Sprite".to_string(),
                 resolution: (640.0, 480.0).into(),
                 resizable: false,
                 present_mode: PresentMode::Immediate,
