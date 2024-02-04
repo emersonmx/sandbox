@@ -36,6 +36,9 @@ enum CharacterState {
 #[derive(Component, Debug, Deref, DerefMut)]
 struct Speed(f32);
 
+#[derive(Component, Debug, Deref, DerefMut)]
+struct Velocity(Vec3);
+
 #[derive(Component)]
 struct AnimationIndices(usize, usize);
 
@@ -64,6 +67,7 @@ fn setup(
     commands.spawn((
         Player,
         Speed(300.0),
+        Velocity(Vec3::ZERO),
         SpriteSheetBundle {
             texture_atlas: texture_atlas_handle,
             sprite: TextureAtlasSprite::new(animation_indices.0),
@@ -104,28 +108,73 @@ fn animate_sprite(
 fn move_player(
     time: Res<Time>,
     input: Res<Input<KeyCode>>,
-    mut query: Query<(&Speed, &mut CharacterState, &mut Transform), With<Player>>,
+    mut query: Query<
+        (
+            &Speed,
+            &mut Velocity,
+            &mut AnimationIndices,
+            &mut TextureAtlasSprite,
+            &mut CharacterState,
+            &mut Transform,
+        ),
+        With<Player>,
+    >,
 ) {
-    for (speed, mut state, mut transform) in &mut query {
-        let mut velocity = Vec3::ZERO;
+    for (speed, mut velocity, mut indicies, mut sprite, mut state, mut transform) in &mut query {
+        let up = if input.pressed(KeyCode::Up) {
+            1.0
+        } else {
+            0.0
+        };
+        let down = if input.pressed(KeyCode::Down) {
+            -1.0
+        } else {
+            0.0
+        };
+        let left = if input.pressed(KeyCode::Left) {
+            -1.0
+        } else {
+            0.0
+        };
+        let right = if input.pressed(KeyCode::Right) {
+            1.0
+        } else {
+            0.0
+        };
+        let x_axis = left + right;
+        let y_axis = down + up ;
+        let input_velocity = Vec3::new(x_axis, y_axis, 0.0);
 
-        if input.pressed(KeyCode::Left) {
-            velocity.x -= 1.0;
-        }
-        if input.pressed(KeyCode::Right) {
-            velocity.x += 1.0;
-        }
-        if input.pressed(KeyCode::Up) {
-            velocity.y += 1.0;
-        }
-        if input.pressed(KeyCode::Down) {
-            velocity.y -= 1.0;
+        if input.just_pressed(KeyCode::Up) {
+            *indicies = AnimationIndices(0, 2);
+            sprite.index = indicies.0;
         }
 
-        if velocity == Vec3::ZERO {
+        if input.just_pressed(KeyCode::Down) {
+            *indicies = AnimationIndices(6, 8);
+            sprite.index = indicies.0;
+        }
+
+        if input.just_pressed(KeyCode::Left) {
+            *indicies = AnimationIndices(9, 11);
+            sprite.index = indicies.0;
+        }
+
+        if input.just_pressed(KeyCode::Right) {
+            *indicies = AnimationIndices(3, 5);
+            sprite.index = indicies.0;
+        }
+
+        if input.any_just_released([KeyCode::Up, KeyCode::Down, KeyCode::Left, KeyCode::Right]) {
+            velocity.0 = Vec3::ZERO;
+        }
+
+        if input_velocity == Vec3::ZERO {
             *state = CharacterState::Idle;
             return;
         }
+
+        velocity.0 = input_velocity;
 
         *state = CharacterState::Moving;
         transform.translation += velocity.normalize() * speed.0 * time.delta_seconds();
