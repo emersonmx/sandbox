@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-pushd "$1"
+cd "$1"
 
 cargo build --target x86_64-pc-windows-gnu
 
