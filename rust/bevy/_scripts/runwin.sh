@@ -2,7 +2,18 @@
 
 set -euo pipefail
 
-(cd "$1"; cargo build --target x86_64-pc-windows-gnu)
+bin_name="$1.exe"
+project_name="$1"
+assets_dir="$1/assets"
+target_path="$project_name/target/x86_64-pc-windows-gnu/debug"
+output_dir="/mnt/d/code/rust/tmp/bevy_sandbox/$project_name"
+bin_path="$target_path/$bin_name"
 
-cp -vf "$1/target/x86_64-pc-windows-gnu/debug/$1.exe" .
-exec "./$1.exe"
+(cd "$project_name" && cargo build --target x86_64-pc-windows-gnu)
+
+rm -rf "$output_dir"
+mkdir -p "$output_dir"
+cp -vf "$bin_path" "$output_dir"
+[[ -d "$assets_dir" ]] && rsync -auL "$assets_dir" "$output_dir"
+
+exec "$output_dir/$bin_name"
