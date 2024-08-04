@@ -1,6 +1,6 @@
 mod texture;
 
-use std::{fs::read_to_string, sync::Arc};
+use std::sync::Arc;
 
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use wgpu::util::DeviceExt;
@@ -238,10 +238,7 @@ impl<'a> State {
         });
 
         // Render setup
-        let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
-            label: Some("Shader"),
-            source: wgpu::ShaderSource::Wgsl(read_to_string("shader.wgsl").unwrap().into()),
-        });
+        let shader = device.create_shader_module(wgpu::include_wgsl!("shader.wgsl"));
         let render_pipeline_layout =
             device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
                 label: Some("Render Pipeline Layout"),

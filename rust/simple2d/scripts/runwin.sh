@@ -14,6 +14,5 @@ strip "$bin_path"
 rm -rf "$output_dir"
 mkdir -p "$output_dir"
 cp -vf "$bin_path" "$output_dir"
-cp -vf "./src/shader.wgsl" "$output_dir"
 
 (cd "$output_dir" && exec "$output_dir/$bin_name")
