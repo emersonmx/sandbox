@@ -1,0 +1,18 @@
+[package]
+name = "simple2d"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+anyhow = "1.0.86"
+bytemuck = { version = "1.16.1", features = ["derive"] }
+futures-executor = "0.3.30"
+image = { version = "0.25.2", features = ["png"], default-features = false }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+wgpu = "0.20.1"
+winit = { version = "0.30.3", features = ["rwh_06"] }
