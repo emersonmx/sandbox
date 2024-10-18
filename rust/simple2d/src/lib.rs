@@ -173,6 +173,7 @@ impl<'a> State {
                 required_features: wgpu::Features::empty(),
                 required_limits: wgpu::Limits::default(),
                 label: None,
+                memory_hints: wgpu::MemoryHints::default(),
             },
             None,
         ))
@@ -280,6 +281,7 @@ impl<'a> State {
                 alpha_to_coverage_enabled: false,
             },
             multiview: None,
+            cache: None,
         });
 
         let vertex_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
