@@ -99,7 +99,10 @@ impl ApplicationHandler for App {
         window_id: WindowId,
         event: WindowEvent,
     ) {
-        let window = self.window.as_ref().unwrap();
+        let window = match self.window.as_ref() {
+            Some(window) => window,
+            None => return,
+        };
         let state = self.state.as_mut().unwrap();
         if window.id() != window_id {
             return;
@@ -113,24 +116,26 @@ impl ApplicationHandler for App {
                 tracing::info!("The close button was pressed; stopping");
                 event_loop.exit();
             }
-            WindowEvent::RedrawRequested => {
-                window.request_redraw();
-
-                match state.render() {
-                    Ok(_) => {}
-                    Err(wgpu::SurfaceError::Lost | wgpu::SurfaceError::Outdated) => {
-                        state.resize(state.size);
-                    }
-                    Err(wgpu::SurfaceError::OutOfMemory) => {
-                        tracing::error!("OutOfMemory");
-                        event_loop.exit();
-                    }
-                    Err(wgpu::SurfaceError::Timeout) => {
-                        tracing::warn!("Surface timeout");
-                    }
+            WindowEvent::RedrawRequested => match state.render() {
+                Ok(_) => {}
+                Err(wgpu::SurfaceError::Lost | wgpu::SurfaceError::Outdated) => {
+                    state.resize(state.size);
                 }
-            }
+                Err(wgpu::SurfaceError::OutOfMemory) => {
+                    tracing::error!("OutOfMemory");
+                    event_loop.exit();
+                }
+                Err(wgpu::SurfaceError::Timeout) => {
+                    tracing::warn!("Surface timeout");
+                }
+            },
             _ => {}
+        }
+    }
+
+    fn about_to_wait(&mut self, _event_loop: &ActiveEventLoop) {
+        if let Some(window) = self.window.as_ref() {
+            window.request_redraw();
         }
     }
 }
