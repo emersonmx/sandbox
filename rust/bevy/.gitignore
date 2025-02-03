@@ -24,3 +24,4 @@ Cargo.lock
 .envrc
 .env
 /*.exe
+*/assets/

@@ -1,0 +1,50 @@
+os := "native"
+assets_dir := justfile_directory() / "assets"
+_triple := if os == "windows" {
+    "x86_64-pc-windows-gnu"
+} else if os == "linux" {
+    "x86_64-unknown-linux-gnu"
+} else if os == "wasm" {
+    "wasm32-unknown-unknown"
+} else {
+    ""
+}
+_target_triple := if _triple != "" { "--target " + _triple } else { "" }
+
+[no-cd]
+@build:
+    cargo build {{_target_triple}}
+
+[no-cd]
+@run:
+    cargo run {{_target_triple}}
+
+[no-cd]
+@copy-assets:
+    cp -vrf "{{assets_dir}}" .
+
+[no-cd]
+@format:
+    cargo fmt
+
+[no-cd]
+@lint:
+    cargo clippy
+
+[no-cd]
+@lint-fix:
+    cargo clippy --fix --allow-dirty
+
+[no-cd]
+@ci:
+    cargo fmt --check
+    cargo clippy
+
+[no-cd]
+@test:
+    cargo test
+
+@clean:
+    find . -name 'Cargo.toml' -printf "%P\\n" \
+        | xargs dirname \
+        | xargs -I+ sh -c "(cd + && echo {{RED}}+ && cargo clean)"
