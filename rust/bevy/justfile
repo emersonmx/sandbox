@@ -1,5 +1,4 @@
 os := "native"
-assets_dir := justfile_directory() / "assets"
 _triple := if os == "windows" {
     "x86_64-pc-windows-gnu"
 } else if os == "linux" {
@@ -11,17 +10,22 @@ _triple := if os == "windows" {
 }
 _target_triple := if _triple != "" { "--target " + _triple } else { "" }
 
+export BEVY_ASSET_ROOT := justfile_directory()
+
 [no-cd]
 @build:
-    cargo build {{_target_triple}}
+    cargo build --release {{_target_triple}}
 
 [no-cd]
 @run:
-    cargo run {{_target_triple}}
+    #!/usr/bin/env bash
+    set -euxo pipefail
 
-[no-cd]
-@copy-assets:
-    cp -vrf "{{assets_dir}}" .
+    if [[ "{{os}}" == "windows" ]]; then
+        export WSLENV=$WSLENV:BEVY_ASSET_ROOT/pw
+    fi
+
+    cargo run {{_target_triple}}
 
 [no-cd]
 @format:
