@@ -10,21 +10,12 @@ _triple := if os == "windows" {
 }
 _target_triple := if _triple != "" { "--target " + _triple } else { "" }
 
-export BEVY_ASSET_ROOT := justfile_directory()
-
 [no-cd]
 @build:
     cargo build --release {{_target_triple}}
 
 [no-cd]
 @run:
-    #!/usr/bin/env bash
-    set -euxo pipefail
-
-    if [[ "{{os}}" == "windows" ]]; then
-        export WSLENV=$WSLENV:BEVY_ASSET_ROOT/pw
-    fi
-
     cargo run {{_target_triple}}
 
 [no-cd]
