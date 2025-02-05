@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use bevy::{prelude::*, window::close_on_esc, window::PresentMode};
+use bevy::{prelude::*, window::close_on_esc};
 
 const TILE_SIZE: usize = 64;
 const SPRITESHEET_SIZE: (usize, usize) = (13, 8);
