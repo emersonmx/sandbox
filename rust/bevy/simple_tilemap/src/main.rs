@@ -15,7 +15,6 @@ fn main() {
                         title: "Simple TileMap".to_owned(),
                         resolution: (640.0, 480.0).into(),
                         resizable: false,
-                        present_mode: PresentMode::Immediate,
                         ..default()
                     }),
                     ..default()
