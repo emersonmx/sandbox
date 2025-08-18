@@ -182,6 +182,7 @@ int main()
     sig = malloc(sizeof(uv_signal_t));
     if (sig == NULL) {
         fprintf(stderr, "failed to allocate memory for signal handle\n");
+        uv_close((uv_handle_t *)server, server_close_cb);
         return 1;
     }
 
