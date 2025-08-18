@@ -197,6 +197,7 @@ int main()
     if (err) {
         fprintf(stderr, "signal start error: %s\n", uv_strerror(err));
         uv_close((uv_handle_t *)sig, signal_close_cb);
+        uv_close((uv_handle_t *)server, server_close_cb);
         return 1;
     }
 
