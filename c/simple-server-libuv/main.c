@@ -9,12 +9,19 @@ void alloc_buffer(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf)
     if (buf->base == NULL) {
         fprintf(stderr, "failed to allocate memory for buffer\n");
         buf->len = 0;
-    } else {
+    } else
         buf->len = suggested_size;
-    }
 }
 
-void handler(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
+void req_write_cb(uv_write_t *req, int status)
+{
+    if (status < 0)
+        fprintf(stderr, "write error: %s\n", uv_strerror(status));
+
+    free(req);
+}
+
+void read_cb(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
 {
     if (nread > 0) {
         if (strncmp(buf->base, "GET /", 5) == 0) {
@@ -25,7 +32,7 @@ void handler(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
                               "Hello, World!";
             uv_write_t *req = malloc(sizeof(uv_write_t));
             uv_buf_t wrbuf = uv_buf_init((char *)res, strlen(res));
-            uv_write(req, client, &wrbuf, 1, NULL);
+            uv_write(req, client, &wrbuf, 1, req_write_cb);
         } else {
             const char *res = "HTTP/1.1 404 Not Found\r\n"
                               "Content-Length: 9\r\n"
@@ -33,7 +40,7 @@ void handler(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
                               "Not Found";
             uv_write_t *req = malloc(sizeof(uv_write_t));
             uv_buf_t wrbuf = uv_buf_init((char *)res, strlen(res));
-            uv_write(req, client, &wrbuf, 1, NULL);
+            uv_write(req, client, &wrbuf, 1, req_write_cb);
         }
 
         uv_close((uv_handle_t *)client, (void (*)(uv_handle_t *))free);
@@ -72,7 +79,7 @@ void on_new_connection(uv_stream_t *server, int status)
     }
 
     printf("accepted new connection\n");
-    err = uv_read_start((uv_stream_t *)client, alloc_buffer, handler);
+    err = uv_read_start((uv_stream_t *)client, alloc_buffer, read_cb);
     if (err) {
         fprintf(stderr, "read start error: %s\n", uv_strerror(err));
     }
