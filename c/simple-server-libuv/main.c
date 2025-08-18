@@ -124,7 +124,7 @@ void on_new_connection(uv_stream_t *server, int status)
     if (err)
         printf("accepted new connection (unable to get peer address)\n");
     else {
-        char ip[INET_ADDRSTRLEN] = { 0 };
+        char ip[INET_ADDRSTRLEN];
         uv_ip4_name(&peer_addr, ip, sizeof(ip));
         printf("connection from %s:%d\n", ip, ntohs(peer_addr.sin_port));
     }
@@ -184,8 +184,6 @@ int main()
     if (sig == NULL) {
         fprintf(stderr, "failed to allocate memory for signal handle\n");
         uv_close((uv_handle_t *)server, server_close_cb);
-        // Free sig if allocation failed (defensive, though malloc failure means sig is NULL)
-        // Do not run the event loop, just return after closing server
         return 1;
     }
 
@@ -195,7 +193,7 @@ int main()
         free(sig);
         sig = NULL;
         uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT); // Wait for close callbacks to complete
+        uv_run(loop, UV_RUN_DEFAULT);
         return 1;
     }
 
@@ -204,11 +202,11 @@ int main()
         fprintf(stderr, "signal start error: %s\n", uv_strerror(err));
         uv_close((uv_handle_t *)sig, signal_close_cb);
         uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT); // Wait for close callbacks to complete
+        uv_run(loop, UV_RUN_DEFAULT);
         return 1;
     }
 
-    printf("Server listening on %s:%d\n", host, port);
-    printf("Press Ctrl+C to stop the server...\n");
+    printf("server listening on %s:%d\n", host, port);
+    printf("press ctrl+c to stop the server...\n");
     return uv_run(loop, UV_RUN_DEFAULT);
 }
