@@ -124,7 +124,7 @@ void on_new_connection(uv_stream_t *server, int status)
     if (err)
         printf("accepted new connection (unable to get peer address)\n");
     else {
-        char ip[17] = { 0 };
+        char ip[INET_ADDRSTRLEN] = { 0 };
         uv_ip4_name(&peer_addr, ip, sizeof(ip));
         printf("connection from %s:%d\n", ip, ntohs(peer_addr.sin_port));
     }
