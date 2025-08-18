@@ -1,0 +1,27 @@
+setup type="Debug":
+    cmake \
+        -B build \
+        -S . \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE={{type}} \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_C_FLAGS="-Wall -Werror -fsanitize=address"
+
+@build:
+    cmake --build build
+
+@run:
+    build/simple-server-libuv
+
+@format:
+    find . \
+        -regex '.*\.\(c\|h\)' \
+        -not -path '*/build/*' \
+        -exec clang-format -style=file --verbose -i {} \;
+
+@test:
+    ctest --test-dir build --output-junit xunit/results.xml
+
+@clean:
+    rm -rf build/
+    rm -rf .cache/
