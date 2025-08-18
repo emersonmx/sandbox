@@ -184,15 +184,18 @@ int main()
     if (sig == NULL) {
         fprintf(stderr, "failed to allocate memory for signal handle\n");
         uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT); // Wait for server_close_cb to complete
+        // Free sig if allocation failed (defensive, though malloc failure means sig is NULL)
+        // Do not run the event loop, just return after closing server
         return 1;
     }
 
     err = uv_signal_init(loop, sig);
     if (err) {
         fprintf(stderr, "signal init error: %s\n", uv_strerror(err));
-        uv_close((uv_handle_t *)sig, signal_close_cb);
+        free(sig);
+        sig = NULL;
         uv_close((uv_handle_t *)server, server_close_cb);
+        uv_run(loop, UV_RUN_DEFAULT); // Wait for close callbacks to complete
         return 1;
     }
 
@@ -201,6 +204,7 @@ int main()
         fprintf(stderr, "signal start error: %s\n", uv_strerror(err));
         uv_close((uv_handle_t *)sig, signal_close_cb);
         uv_close((uv_handle_t *)server, server_close_cb);
+        uv_run(loop, UV_RUN_DEFAULT); // Wait for close callbacks to complete
         return 1;
     }
 
