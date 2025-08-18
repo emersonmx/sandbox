@@ -186,7 +186,7 @@ int main()
     sig = malloc(sizeof(uv_signal_t));
     if (sig == NULL) {
         fprintf(stderr, "failed to allocate memory for signal handle\n");
-        uv_close((uv_handle_t *)server, server_close_cb);
+        free(sig);
         return 1;
     }
 
@@ -194,15 +194,15 @@ int main()
     if (err) {
         fprintf(stderr, "signal init error: %s\n", uv_strerror(err));
         free(sig);
-        uv_close((uv_handle_t *)server, server_close_cb);
+        free(server);
         return 1;
     }
 
     err = uv_signal_start(sig, signal_cb, SIGINT);
     if (err) {
         fprintf(stderr, "signal start error: %s\n", uv_strerror(err));
-        uv_close((uv_handle_t *)sig, signal_close_cb);
-        uv_close((uv_handle_t *)server, server_close_cb);
+        free(sig);
+        free(server);
         return 1;
     }
 
