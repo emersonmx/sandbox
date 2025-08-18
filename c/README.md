@@ -10,8 +10,5 @@ cmake -B build -S . -G Ninja
 cmake --build build
 
 # Test
-ctest --test-dir build --output-junit build/xunit/results.xml
-
-# Install
-DESTDIR=staging cmake --install build --componente libmylib-dev
+ctest --test-dir build --output-junit xunit/results.xml
 ```
