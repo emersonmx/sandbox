@@ -152,31 +152,34 @@ int main()
     server = malloc(sizeof(uv_tcp_t));
     if (server == NULL) {
         fprintf(stderr, "failed to allocate memory for server\n");
-        uv_loop_close(loop);
         return 1;
     }
 
     err = uv_tcp_init(loop, server);
     if (err) {
         fprintf(stderr, "tcp init error: %s\n", uv_strerror(err));
+        free(server);
         return 1;
     }
 
     err = uv_ip4_addr(host, port, &addr);
     if (err) {
         fprintf(stderr, "ip4 addr error: %s\n", uv_strerror(err));
+        free(server);
         return 1;
     }
 
     err = uv_tcp_bind(server, (const struct sockaddr *)&addr, 0);
     if (err) {
         fprintf(stderr, "bind error: %s\n", uv_strerror(err));
+        free(server);
         return 1;
     }
 
     err = uv_listen((uv_stream_t *)server, default_backlog, on_new_connection);
     if (err) {
         fprintf(stderr, "listen error: %s\n", uv_strerror(err));
+        free(server);
         return 1;
     }
 
@@ -191,9 +194,7 @@ int main()
     if (err) {
         fprintf(stderr, "signal init error: %s\n", uv_strerror(err));
         free(sig);
-        sig = NULL;
         uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT);
         return 1;
     }
 
@@ -202,7 +203,6 @@ int main()
         fprintf(stderr, "signal start error: %s\n", uv_strerror(err));
         uv_close((uv_handle_t *)sig, signal_close_cb);
         uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT);
         return 1;
     }
 
