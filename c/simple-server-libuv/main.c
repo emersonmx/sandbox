@@ -38,7 +38,7 @@ void handler(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
 
         uv_close((uv_handle_t *)client, (void (*)(uv_handle_t *))free);
     } else if (nread < 0)
-        uv_close((uv_handle_t *)client, NULL);
+        uv_close((uv_handle_t *)client, (void (*)(uv_handle_t *))free);
 
     if (buf->base)
         free(buf->base);
