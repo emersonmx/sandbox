@@ -17,7 +17,7 @@ void signal_close_cb(uv_handle_t *handle)
     free(handle);
     if ((uv_signal_t *)handle == sig) {
         sig = NULL;
-    }
+    sig = NULL;
 }
 
 void signal_cb(uv_signal_t *handle, int signum)
