@@ -190,6 +190,7 @@ int main()
     if (err) {
         fprintf(stderr, "signal init error: %s\n", uv_strerror(err));
         free(sig);
+        uv_close((uv_handle_t *)server, server_close_cb);
         return 1;
     }
 
