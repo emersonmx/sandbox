@@ -3,29 +3,15 @@
 #include <string.h>
 #include <uv.h>
 
-static uv_tcp_t *server = NULL;
-static uv_signal_t *sig = NULL;
-
-void server_close_cb(uv_handle_t *handle)
-{
-    free(handle);
-    server = NULL;
-}
-
-void signal_close_cb(uv_handle_t *handle)
-{
-    free(handle);
-    sig = NULL;
-}
-
 void signal_cb(uv_signal_t *handle, int signum)
 {
     printf("\nReceived SIGINT, shutting down gracefully...\n");
+    uv_tcp_t *server = handle->data;
     if (server) {
-        uv_close((uv_handle_t *)server, server_close_cb);
+        uv_close((uv_handle_t *)server, NULL);
     }
     uv_signal_stop(handle);
-    uv_close((uv_handle_t *)handle, signal_close_cb);
+    uv_close((uv_handle_t *)handle, NULL);
 }
 
 void client_close_cb(uv_handle_t *client)
@@ -60,8 +46,8 @@ void read_cb(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
                               "Content-Length: 13\r\n"
                               "\r\n"
                               "Hello, World!";
-            uv_write_t *req = malloc(sizeof(uv_write_t));
             uv_buf_t wrbuf = uv_buf_init((char *)res, strlen(res));
+            uv_write_t *req = malloc(sizeof(uv_write_t));
             int err = uv_write(req, client, &wrbuf, 1, req_write_cb);
             if (err) {
                 fprintf(stderr, "write error: %s\n", uv_strerror(err));
@@ -72,8 +58,8 @@ void read_cb(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
                               "Content-Length: 9\r\n"
                               "\r\n"
                               "Not Found";
-            uv_write_t *req = malloc(sizeof(uv_write_t));
             uv_buf_t wrbuf = uv_buf_init((char *)res, strlen(res));
+            uv_write_t *req = malloc(sizeof(uv_write_t));
             int err = uv_write(req, client, &wrbuf, 1, req_write_cb);
             if (err) {
                 fprintf(stderr, "write error: %s\n", uv_strerror(err));
@@ -147,63 +133,42 @@ int main()
     uint16_t port = 8000;
     size_t default_backlog = 128;
 
-    server = malloc(sizeof(uv_tcp_t));
-    if (server == NULL) {
-        fprintf(stderr, "failed to allocate memory for server\n");
-        return 1;
-    }
-
-    err = uv_tcp_init(loop, server);
+    uv_tcp_t server;
+    err = uv_tcp_init(loop, &server);
     if (err) {
         fprintf(stderr, "tcp init error: %s\n", uv_strerror(err));
-        free(server);
         return 1;
     }
 
     err = uv_ip4_addr(host, port, &addr);
     if (err) {
         fprintf(stderr, "ip4 addr error: %s\n", uv_strerror(err));
-        free(server);
         return 1;
     }
 
-    err = uv_tcp_bind(server, (const struct sockaddr *)&addr, 0);
+    err = uv_tcp_bind(&server, (const struct sockaddr *)&addr, 0);
     if (err) {
         fprintf(stderr, "bind error: %s\n", uv_strerror(err));
-        free(server);
         return 1;
     }
 
-    err = uv_listen((uv_stream_t *)server, default_backlog, on_new_connection);
+    err = uv_listen((uv_stream_t *)&server, default_backlog, on_new_connection);
     if (err) {
         fprintf(stderr, "listen error: %s\n", uv_strerror(err));
-        free(server);
         return 1;
     }
 
-    sig = malloc(sizeof(uv_signal_t));
-    if (sig == NULL) {
-        fprintf(stderr, "failed to allocate memory for signal handle\n");
-        uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT);
-        return 1;
-    }
-
-    err = uv_signal_init(loop, sig);
+    uv_signal_t sig;
+    err = uv_signal_init(loop, &sig);
     if (err) {
         fprintf(stderr, "signal init error: %s\n", uv_strerror(err));
-        free(sig);
-        uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT);
         return 1;
     }
+    sig.data = &server;
 
-    err = uv_signal_start(sig, signal_cb, SIGINT);
+    err = uv_signal_start(&sig, signal_cb, SIGINT);
     if (err) {
         fprintf(stderr, "signal start error: %s\n", uv_strerror(err));
-        uv_close((uv_handle_t *)sig, signal_close_cb);
-        uv_close((uv_handle_t *)server, server_close_cb);
-        uv_run(loop, UV_RUN_DEFAULT);
         return 1;
     }
 
