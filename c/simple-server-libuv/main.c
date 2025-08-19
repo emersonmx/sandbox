@@ -209,5 +209,8 @@ int main()
 
     printf("server listening on %s:%d\n", host, port);
     printf("press ctrl+c to stop the server...\n");
-    return uv_run(loop, UV_RUN_DEFAULT);
+    int code = uv_run(loop, UV_RUN_DEFAULT);
+    uv_loop_close(loop);
+
+    return code;
 }
