@@ -4,26 +4,30 @@
 
 #include <SDL_image.h>
 
-Texture texture_load(SDL_Renderer *renderer, const char *file_path)
+Texture texture_from_file(SDL_Renderer *renderer, const char *file_path)
 {
-    Texture result = { 0 };
-
     SDL_Log("Loading image: %s", file_path);
     SDL_Surface *surface = IMG_Load(file_path);
     if (!surface) {
         SDL_Log("Failed to load image %s: %s", file_path, IMG_GetError());
-    } else {
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-        if (!texture) {
-            SDL_Log("Failed to create texture from %s: %s", file_path,
-                    SDL_GetError());
-        }
-        result.texture = texture;
-        result.region = (SDL_Rect){ 0, 0, surface->w, surface->h };
-        SDL_FreeSurface(surface);
+        return (Texture){ 0 };
     }
 
-    return result;
+    Texture texture = texture_from_surface(renderer, surface);
+    SDL_FreeSurface(surface);
+    return texture;
+}
+
+Texture texture_from_surface(SDL_Renderer *renderer, SDL_Surface *surface)
+{
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!texture) {
+        SDL_Log("Failed to create texture from surface: %s", SDL_GetError());
+        return (Texture){ 0 };
+    }
+
+    return (Texture){ .texture = texture,
+                      .region = { 0, 0, surface->w, surface->h } };
 }
 
 void texture_destroy(Texture *texture)

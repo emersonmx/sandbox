@@ -8,7 +8,8 @@ typedef struct {
     SDL_Rect region;
 } Texture;
 
-Texture texture_load(SDL_Renderer *renderer, const char *file_path);
+Texture texture_from_file(SDL_Renderer *renderer, const char *file_path);
+Texture texture_from_surface(SDL_Renderer *renderer, SDL_Surface *surface);
 void texture_destroy(Texture *texture);
 void texture_render(const Texture *texture, SDL_Renderer *renderer,
                     SDL_Point position);

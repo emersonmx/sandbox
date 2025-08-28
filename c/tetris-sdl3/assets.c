@@ -7,10 +7,11 @@
 
 void assets_load(Assets *assets, SDL_Renderer *renderer)
 {
-    assets->block = texture_load(renderer, "assets/block.png");
-    assets->mini_block = texture_load(renderer, "assets/mini_block.png");
-    assets->grid = texture_load(renderer, "assets/grid.png");
-    assets->main_menu_bg = texture_load(renderer, "assets/main_menu_bg.png");
+    assets->block = texture_from_file(renderer, "assets/block.png");
+    assets->mini_block = texture_from_file(renderer, "assets/mini_block.png");
+    assets->grid = texture_from_file(renderer, "assets/grid.png");
+    assets->main_menu_bg =
+        texture_from_file(renderer, "assets/main_menu_bg.png");
 
     LOAD_FONT(assets->default_font, "assets/Chewy.ttf", 24);
 
