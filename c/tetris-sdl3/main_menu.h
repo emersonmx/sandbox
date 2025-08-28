@@ -4,13 +4,20 @@
 #include "assets.h"
 #include "music.h"
 #include "sprite.h"
+#include "text.h"
 
 typedef struct {
     Sprite background;
     Music main_music;
+    Text game_start_text;
 } MainMenu;
 
-void main_menu_init(MainMenu *menu, Assets *assets);
+typedef struct {
+    Assets *assets;
+    SDL_Renderer *renderer;
+} MainMenuInitOptions;
+
+void main_menu_init(MainMenu *menu, MainMenuInitOptions options);
 void main_menu_quit(MainMenu *menu);
 void main_menu_process_events(MainMenu *menu, SDL_Event *event);
 void main_menu_update(MainMenu *menu);

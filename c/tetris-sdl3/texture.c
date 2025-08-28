@@ -41,11 +41,11 @@ void texture_destroy(Texture *texture)
 void texture_render(const Texture *texture, SDL_Renderer *renderer,
                     SDL_Point position)
 {
-    SDL_Texture *tex = texture->texture;
+    SDL_Texture *sdl_texture = texture->texture;
     SDL_Rect rect = { position.x, position.y, texture->region.w,
                       texture->region.h };
 
-    if (!tex) {
+    if (!sdl_texture) {
         SDL_Log("Cannot render null texture");
         return;
     }
@@ -55,7 +55,8 @@ void texture_render(const Texture *texture, SDL_Renderer *renderer,
         return;
     }
 
-    bool err = SDL_RenderCopy(renderer, tex, &texture->region, &rect) < 0;
+    bool err =
+        SDL_RenderCopy(renderer, sdl_texture, &texture->region, &rect) < 0;
     if (err) {
         SDL_Log("Failed to render texture: %s", SDL_GetError());
     }

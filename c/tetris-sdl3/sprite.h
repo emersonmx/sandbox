@@ -6,7 +6,7 @@
 #include "texture.h"
 
 typedef struct {
-    Texture *texture;
+    Texture texture;
     SDL_Point position;
     SDL_Point offset;
 } Sprite;

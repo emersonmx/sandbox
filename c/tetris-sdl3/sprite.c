@@ -7,5 +7,5 @@ void sprite_render(const Sprite *sprite, SDL_Renderer *renderer)
         .y = sprite->position.y - sprite->offset.y,
     };
 
-    texture_render(sprite->texture, renderer, position);
+    texture_render(&sprite->texture, renderer, position);
 }

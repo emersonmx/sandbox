@@ -56,7 +56,9 @@ static GameResult init(Game *game, int argc, char *argv[])
 
     assets_load(&game->assets, game->renderer);
 
-    main_menu_init(&game->main_menu, &game->assets);
+    main_menu_init(&game->main_menu,
+                   (MainMenuInitOptions){ .assets = &game->assets,
+                                          .renderer = game->renderer });
 
     return GAME_CONTINUE;
 }
