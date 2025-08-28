@@ -1,0 +1,117 @@
+#include "game.h"
+
+#include <SDL2/SDL.h>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
+
+#include "assets.h"
+#include "config.h"
+
+typedef struct {
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+
+    Assets assets;
+} Game;
+
+static GameResult init(Game *game, int argc, char *argv[])
+{
+    bool err = SDL_Init(SDL_INIT_EVERYTHING) < 0;
+    if (err) {
+        SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
+        return GAME_FAILURE;
+    }
+
+    err = SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0,
+                                      &game->window, &game->renderer) < 0;
+    if (err) {
+        SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
+        return GAME_FAILURE;
+    }
+
+    err = IMG_Init(IMG_INIT_PNG) < 0;
+    if (err) {
+        SDL_Log("Couldn't initialize IMG: %s", IMG_GetError());
+        return GAME_FAILURE;
+    }
+
+    err = TTF_Init() < 0;
+    if (err) {
+        SDL_Log("Couldn't initialize TTF: %s", TTF_GetError());
+        return GAME_FAILURE;
+    }
+
+    err = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 2048) < 0;
+    if (err) {
+        SDL_Log("Couldn't initialize Mixer: %s", Mix_GetError());
+        return GAME_FAILURE;
+    }
+
+    SDL_SetWindowTitle(game->window, WINDOW_TITLE);
+
+    assets_load(&game->assets, game->renderer);
+
+    return GAME_CONTINUE;
+}
+
+static void quit(Game *game, GameResult result)
+{
+    assets_free(&game->assets);
+
+    IMG_Quit();
+    TTF_Quit();
+    Mix_CloseAudio();
+    SDL_Quit();
+}
+
+static GameResult process_events(Game *game, SDL_Event *event)
+{
+    if (event->type == SDL_QUIT) {
+        return GAME_SUCCESS;
+    }
+
+    bool is_down = event->type == SDL_KEYDOWN;
+    SDL_Keycode key = event->key.keysym.sym;
+    if (is_down && key == SDLK_ESCAPE) {
+        return GAME_SUCCESS;
+    }
+
+    return GAME_CONTINUE;
+}
+
+static GameResult update(Game *game)
+{
+    SDL_Delay(FRAME_DELAY);
+
+    SDL_Renderer *renderer = game->renderer;
+
+    SDL_SetRenderDrawColor(renderer, 32, 32, 32, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+
+    SDL_RenderPresent(renderer);
+
+    return GAME_CONTINUE;
+}
+
+GameResult game_run(int argc, char *argv[])
+{
+    Game game = { 0 };
+    GameResult result = init(&game, 0, NULL);
+
+    SDL_Event event;
+    while (result == GAME_CONTINUE) {
+        while (SDL_PollEvent(&event)) {
+            result = process_events(&game, &event);
+            if (result != GAME_CONTINUE)
+                goto quit;
+        }
+
+        result = update(&game);
+    }
+
+quit:
+    quit(&game, result);
+
+    return result == GAME_SUCCESS ? 0 : 1;
+}
