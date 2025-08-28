@@ -5,11 +5,13 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+#include "texture.h"
+
 typedef struct {
-    SDL_Texture *block;
-    SDL_Texture *mini_block;
-    SDL_Texture *grid;
-    SDL_Texture *main_menu_bg;
+    Texture block;
+    Texture mini_block;
+    Texture grid;
+    Texture main_menu_bg;
 
     TTF_Font *default_font;
 
@@ -24,6 +26,6 @@ typedef struct {
 } Assets;
 
 void assets_load(Assets *assets, SDL_Renderer *renderer);
-void assets_free(Assets *assets);
+void assets_destroy(Assets *assets);
 
 #endif // ASSETS_H

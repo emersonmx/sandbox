@@ -7,12 +7,15 @@
 
 #include "assets.h"
 #include "config.h"
+#include "main_menu.h"
 
 typedef struct {
     SDL_Window *window;
     SDL_Renderer *renderer;
 
     Assets assets;
+
+    MainMenu main_menu;
 } Game;
 
 static GameResult init(Game *game, int argc, char *argv[])
@@ -29,6 +32,8 @@ static GameResult init(Game *game, int argc, char *argv[])
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return GAME_FAILURE;
     }
+
+    SDL_SetWindowTitle(game->window, WINDOW_TITLE);
 
     err = IMG_Init(IMG_INIT_PNG) < 0;
     if (err) {
@@ -48,16 +53,23 @@ static GameResult init(Game *game, int argc, char *argv[])
         return GAME_FAILURE;
     }
 
-    SDL_SetWindowTitle(game->window, WINDOW_TITLE);
-
     assets_load(&game->assets, game->renderer);
+
+    game->main_menu =
+        (MainMenu){ .background = { .texture = &game->assets.main_menu_bg,
+                                    .position = { 46, 239 } },
+                    .main_music = { .music = game->assets.main_music,
+                                    .volume = 70.0f } };
+    main_menu_init(&game->main_menu);
 
     return GAME_CONTINUE;
 }
 
 static void quit(Game *game, GameResult result)
 {
-    assets_free(&game->assets);
+    main_menu_quit(&game->main_menu);
+
+    assets_destroy(&game->assets);
 
     IMG_Quit();
     TTF_Quit();
@@ -82,12 +94,16 @@ static GameResult process_events(Game *game, SDL_Event *event)
 
 static GameResult update(Game *game)
 {
+    SDL_Renderer *renderer = game->renderer;
+
     SDL_Delay(FRAME_DELAY);
 
-    SDL_Renderer *renderer = game->renderer;
+    main_menu_update(&game->main_menu);
 
     SDL_SetRenderDrawColor(renderer, 32, 32, 32, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
+
+    main_menu_render(&game->main_menu, renderer);
 
     SDL_RenderPresent(renderer);
 

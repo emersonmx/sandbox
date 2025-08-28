@@ -42,9 +42,11 @@ FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_ttf SDL2_mixer unity)
 add_executable(tetris-sdl3)
 target_sources(tetris-sdl3
     PRIVATE
-        main.c
-        game.c
         assets.c
+        game.c
+        main.c
+        main_menu.c
+        texture.c
 )
 target_link_libraries(tetris-sdl3
     PRIVATE

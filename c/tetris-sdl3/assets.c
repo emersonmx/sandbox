@@ -3,13 +3,14 @@
 #include <SDL_image.h>
 
 #include "macros.h"
+#include "texture.h"
 
 void assets_load(Assets *assets, SDL_Renderer *renderer)
 {
-    LOAD_IMAGE(renderer, assets->block, "assets/block.png");
-    LOAD_IMAGE(renderer, assets->mini_block, "assets/mini_block.png");
-    LOAD_IMAGE(renderer, assets->grid, "assets/grid.png");
-    LOAD_IMAGE(renderer, assets->main_menu_bg, "assets/main_menu_bg.png");
+    assets->block = texture_load(renderer, "assets/block.png");
+    assets->mini_block = texture_load(renderer, "assets/mini_block.png");
+    assets->grid = texture_load(renderer, "assets/grid.png");
+    assets->main_menu_bg = texture_load(renderer, "assets/main_menu_bg.png");
 
     LOAD_FONT(assets->default_font, "assets/Chewy.ttf", 24);
 
@@ -24,12 +25,12 @@ void assets_load(Assets *assets, SDL_Renderer *renderer)
     LOAD_SOUND(assets->rotate_tetromino_sound, "assets/rotate_tetromino.wav");
 }
 
-void assets_free(Assets *assets)
+void assets_destroy(Assets *assets)
 {
-    FREE_IMAGE(assets->block);
-    FREE_IMAGE(assets->mini_block);
-    FREE_IMAGE(assets->grid);
-    FREE_IMAGE(assets->main_menu_bg);
+    texture_destroy(&assets->block);
+    texture_destroy(&assets->mini_block);
+    texture_destroy(&assets->grid);
+    texture_destroy(&assets->main_menu_bg);
 
     FREE_FONT(assets->default_font);
 
