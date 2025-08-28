@@ -46,6 +46,8 @@ target_sources(tetris-sdl3
         game.c
         main.c
         main_menu.c
+        music.c
+        sprite.c
         texture.c
 )
 target_link_libraries(tetris-sdl3

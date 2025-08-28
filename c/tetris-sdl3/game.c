@@ -34,6 +34,7 @@ static GameResult init(Game *game, int argc, char *argv[])
     }
 
     SDL_SetWindowTitle(game->window, WINDOW_TITLE);
+    SDL_RenderSetLogicalSize(game->renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     err = IMG_Init(IMG_INIT_PNG) < 0;
     if (err) {
@@ -55,12 +56,7 @@ static GameResult init(Game *game, int argc, char *argv[])
 
     assets_load(&game->assets, game->renderer);
 
-    game->main_menu =
-        (MainMenu){ .background = { .texture = &game->assets.main_menu_bg,
-                                    .position = { 46, 239 } },
-                    .main_music = { .music = game->assets.main_music,
-                                    .volume = 70.0f } };
-    main_menu_init(&game->main_menu);
+    main_menu_init(&game->main_menu, &game->assets);
 
     return GAME_CONTINUE;
 }
@@ -79,15 +75,19 @@ static void quit(Game *game, GameResult result)
 
 static GameResult process_events(Game *game, SDL_Event *event)
 {
+    main_menu_process_events(&game->main_menu, event);
+
     if (event->type == SDL_QUIT) {
         return GAME_SUCCESS;
     }
 
+#ifndef NDEBUG
     bool is_down = event->type == SDL_KEYDOWN;
     SDL_Keycode key = event->key.keysym.sym;
     if (is_down && key == SDLK_ESCAPE) {
         return GAME_SUCCESS;
     }
+#endif
 
     return GAME_CONTINUE;
 }

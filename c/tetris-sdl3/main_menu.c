@@ -1,32 +1,23 @@
 #include "main_menu.h"
 
-#include "SDL_mixer.h"
 #include "SDL_render.h"
+#include "music.h"
+#include "sprite.h"
 
-static void play_music(Mix_Music *music, float volume);
-
-void main_menu_init(MainMenu *menu)
+void main_menu_init(MainMenu *menu, Assets *assets)
 {
-    play_music(menu->main_music.music, menu->main_music.volume);
-}
+    *menu = (MainMenu){
+        .background = { .texture = &assets->main_menu_bg,
+                        .position = { 46, 239 } },
+        .main_music = { .mix_music = assets->main_music, .volume = 70.0f },
+    };
 
-static void play_music(Mix_Music *music, float volume)
-{
-    bool err = Mix_PlayMusic(music, -1) < 0;
-    if (err) {
-        SDL_Log("Couldn't play main menu music: %s", Mix_GetError());
-        return;
-    }
-
-    err = Mix_VolumeMusic((int)(MIX_MAX_VOLUME * volume) / 100) < 0;
-    if (err) {
-        SDL_Log("Couldn't set main menu music volume: %s", Mix_GetError());
-    }
+    music_play(&menu->main_music);
 }
 
 void main_menu_quit(MainMenu *menu)
 {
-    Mix_HaltMusic();
+    music_stop();
 }
 
 void main_menu_process_events(MainMenu *menu, SDL_Event *event)
@@ -39,9 +30,5 @@ void main_menu_update(MainMenu *menu)
 
 void main_menu_render(MainMenu *menu, SDL_Renderer *renderer)
 {
-    SDL_Point position = {
-        .x = menu->background.position.x,
-        .y = menu->background.position.y,
-    };
-    texture_render(menu->background.texture, renderer, position);
+    sprite_render(&menu->background, renderer);
 }

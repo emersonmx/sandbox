@@ -16,6 +16,7 @@ typedef struct {
     TTF_Font *default_font;
 
     Mix_Music *main_music;
+
     Mix_Chunk *erase_lines_sound;
     Mix_Chunk *fit_tetromino_sound;
     Mix_Chunk *game_over_sound;

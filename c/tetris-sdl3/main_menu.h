@@ -1,23 +1,16 @@
 #ifndef MAIN_MENU
 #define MAIN_MENU
 
-#include <SDL2/SDL.h>
-#include <SDL_mixer.h>
-
-#include "texture.h"
+#include "assets.h"
+#include "music.h"
+#include "sprite.h"
 
 typedef struct {
-    struct {
-        Texture *texture;
-        SDL_Point position;
-    } background;
-    struct {
-        Mix_Music *music;
-        float volume;
-    } main_music;
+    Sprite background;
+    Music main_music;
 } MainMenu;
 
-void main_menu_init(MainMenu *menu);
+void main_menu_init(MainMenu *menu, Assets *assets);
 void main_menu_quit(MainMenu *menu);
 void main_menu_process_events(MainMenu *menu, SDL_Event *event);
 void main_menu_update(MainMenu *menu);
