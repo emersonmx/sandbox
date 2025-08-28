@@ -3,7 +3,6 @@ setup type="Debug":
         -B build \
         -S . \
         -G Ninja \
-        -DCMAKE_C_FLAGS="-Wall -Werror" \
         -DCMAKE_BUILD_TYPE={{type}} \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         -DSDL2IMAGE_PNG=ON \
