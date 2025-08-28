@@ -1,0 +1,63 @@
+{
+    "version": 10,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "hidden": true,
+            "description": "Default build",
+            "cacheVariables": {
+                "SDL2IMAGE_PNG": true,
+                "SDL2MIXER_WAVE": true,
+                "SDL2MIXER_VORBIS": "STB",
+                "SDL2IMAGE_AVIF": false,
+                "SDL2IMAGE_BMP": false,
+                "SDL2IMAGE_GIF": false,
+                "SDL2IMAGE_JPG": false,
+                "SDL2IMAGE_JXL": false,
+                "SDL2IMAGE_LBM": false,
+                "SDL2IMAGE_PCX": false,
+                "SDL2IMAGE_PNM": false,
+                "SDL2IMAGE_QOI": false,
+                "SDL2IMAGE_SVG": false,
+                "SDL2IMAGE_TGA": false,
+                "SDL2IMAGE_TIF": false,
+                "SDL2IMAGE_WEBP": false,
+                "SDL2IMAGE_XCF": false,
+                "SDL2IMAGE_XPM": false,
+                "SDL2IMAGE_XV": false,
+                "SDL2MIXER_FLAC": false,
+                "SDL2MIXER_GME": false,
+                "SDL2MIXER_MIDI": false,
+                "SDL2MIXER_MOD": false,
+                "SDL2MIXER_MP3": false,
+                "SDL2MIXER_OPUS": false,
+                "SDL2MIXER_WAVPACK": false
+            }
+        },
+        {
+            "inherits": ["default"],
+            "name": "dev",
+            "generator": "Ninja",
+            "description": "Development build",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        },
+        {
+            "inherits": ["default"],
+            "name": "release",
+            "generator": "Ninja",
+            "description": "Release build",
+            "binaryDir": "${sourceDir}/build-release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ]
+}
