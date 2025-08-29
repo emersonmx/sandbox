@@ -3,6 +3,7 @@
 Sound sound_from_file(const char *file_path)
 {
     SDL_Log("Loading sound: %s", file_path);
+
     Mix_Chunk *chunk = Mix_LoadWAV(file_path);
     if (!chunk) {
         SDL_Log("Failed to load sound %s: %s", file_path, Mix_GetError());

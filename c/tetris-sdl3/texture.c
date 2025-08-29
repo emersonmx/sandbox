@@ -7,6 +7,7 @@
 Texture texture_from_file(SDL_Renderer *renderer, const char *file_path)
 {
     SDL_Log("Loading image: %s", file_path);
+
     SDL_Surface *surface = IMG_Load(file_path);
     if (!surface) {
         SDL_Log("Failed to load image %s: %s", file_path, IMG_GetError());

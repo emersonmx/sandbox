@@ -3,6 +3,7 @@
 Music music_from_file(const char *file_path)
 {
     SDL_Log("Loading music: %s", file_path);
+
     Mix_Music *music = Mix_LoadMUS(file_path);
     if (!music) {
         SDL_Log("Failed to load music %s: %s", file_path, Mix_GetError());
