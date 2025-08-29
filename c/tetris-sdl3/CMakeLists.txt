@@ -46,6 +46,7 @@ target_sources(tetris-sdl3
         game.c
         main.c
         main_menu.c
+        mini_blocks.c
         music.c
         sprite.c
         text.c

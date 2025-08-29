@@ -7,7 +7,8 @@
 #include "text.h"
 
 typedef struct {
-    Sprite background;
+    Sprite image_background;
+    Sprite mini_blocks_background;
     Music main_music;
     Text game_start_text;
 } MainMenu;
@@ -20,7 +21,6 @@ typedef struct {
 void main_menu_init(MainMenu *menu, MainMenuInitOptions options);
 void main_menu_quit(MainMenu *menu);
 void main_menu_process_events(MainMenu *menu, SDL_Event *event);
-void main_menu_update(MainMenu *menu);
 void main_menu_render(MainMenu *menu, SDL_Renderer *renderer);
 
 #endif // MAIN_MENU

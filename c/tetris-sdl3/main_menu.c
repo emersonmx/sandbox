@@ -1,6 +1,7 @@
 #include "main_menu.h"
 
 #include "config.h"
+#include "mini_blocks.h"
 #include "music.h"
 #include "sprite.h"
 
@@ -25,12 +26,21 @@ void main_menu_init(MainMenu *menu, MainMenuInitOptions options)
     Assets *assets = options.assets;
     SDL_Renderer *renderer = options.renderer;
 
-    *menu = (MainMenu){ .background = { .texture = assets->main_menu_bg,
-                                        .position = { 46, 239 } },
-                        .main_music = { .mix_music = assets->main_music,
-                                        .volume = 70.0f },
-                        .game_start_text = create_game_start_text(
-                            assets->default_font, renderer) };
+    *menu = (MainMenu){
+        .image_background = {
+            .texture = assets->main_menu_bg,
+            .position = { 48, 240 },
+        },
+        .mini_blocks_background = {
+            .texture = mini_blocks_create(assets->mini_block, renderer),
+            .position = { 0, 0 },
+        },
+        .main_music = {
+            .mix_music = assets->main_music,
+            .volume = 70.0f,
+        },
+        .game_start_text = create_game_start_text(assets->default_font, renderer)
+    };
 
     music_play(&menu->main_music);
 }
@@ -38,6 +48,7 @@ void main_menu_init(MainMenu *menu, MainMenuInitOptions options)
 void main_menu_quit(MainMenu *menu)
 {
     text_destroy(&menu->game_start_text);
+    texture_destroy(&menu->mini_blocks_background.texture);
     music_stop();
 }
 
@@ -45,12 +56,9 @@ void main_menu_process_events(MainMenu *menu, SDL_Event *event)
 {
 }
 
-void main_menu_update(MainMenu *menu)
-{
-}
-
 void main_menu_render(MainMenu *menu, SDL_Renderer *renderer)
 {
-    sprite_render(&menu->background, renderer);
+    sprite_render(&menu->mini_blocks_background, renderer);
+    sprite_render(&menu->image_background, renderer);
     text_render(&menu->game_start_text, renderer);
 }
