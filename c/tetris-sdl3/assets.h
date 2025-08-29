@@ -5,6 +5,8 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+#include "music.h"
+#include "sound.h"
 #include "texture.h"
 
 typedef struct {
@@ -15,15 +17,15 @@ typedef struct {
 
     TTF_Font *default_font;
 
-    Mix_Music *main_music;
+    Music main_music;
 
-    Mix_Chunk *erase_lines_sound;
-    Mix_Chunk *fit_tetromino_sound;
-    Mix_Chunk *game_over_sound;
-    Mix_Chunk *game_start_sound;
-    Mix_Chunk *menu_open_sound;
-    Mix_Chunk *move_tetromino_sound;
-    Mix_Chunk *rotate_tetromino_sound;
+    Sound erase_lines_sound;
+    Sound fit_tetromino_sound;
+    Sound game_over_sound;
+    Sound game_start_sound;
+    Sound menu_open_sound;
+    Sound move_tetromino_sound;
+    Sound rotate_tetromino_sound;
 } Assets;
 
 void assets_load(Assets *assets, SDL_Renderer *renderer);

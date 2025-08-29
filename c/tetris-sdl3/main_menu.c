@@ -35,12 +35,9 @@ void main_menu_init(MainMenu *menu, MainMenuInitOptions options)
             .texture = mini_blocks_create(assets->mini_block, renderer),
             .position = { 0, 0 },
         },
-        .main_music = {
-            .mix_music = assets->main_music,
-            .volume = 70.0f,
-        },
+        .main_music = assets->main_music,
         .game_start_text = create_game_start_text(assets->default_font, renderer),
-        .game_start_sound = { .mix_chunk = assets->game_start_sound },
+        .game_start_sound = assets->game_start_sound,
     };
 
     music_play(&menu->main_music);
@@ -50,7 +47,6 @@ void main_menu_quit(MainMenu *menu)
 {
     text_destroy(&menu->game_start_text);
     texture_destroy(&menu->mini_blocks_background.texture);
-    music_stop();
 }
 
 void main_menu_process_events(MainMenu *menu, SDL_Event *event)

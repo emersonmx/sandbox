@@ -8,6 +8,7 @@ typedef struct {
     Mix_Chunk *mix_chunk;
 } Sound;
 
+Sound sound_from_file(const char *file_path);
 void sound_destroy(Sound *sound);
 void sound_play(Sound *sound);
 void sound_stop(Sound *sound);

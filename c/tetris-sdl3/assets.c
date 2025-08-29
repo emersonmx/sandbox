@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 
 #include "macros.h"
+#include "sound.h"
 #include "texture.h"
 
 void assets_load(Assets *assets, SDL_Renderer *renderer)
@@ -15,15 +16,16 @@ void assets_load(Assets *assets, SDL_Renderer *renderer)
 
     LOAD_FONT(assets->default_font, "assets/Chewy.ttf", 24);
 
-    LOAD_MUSIC(assets->main_music, "assets/main_music.ogg");
+    assets->main_music = music_from_file("assets/main_music.ogg");
 
-    LOAD_SOUND(assets->erase_lines_sound, "assets/erase_lines.wav");
-    LOAD_SOUND(assets->fit_tetromino_sound, "assets/fit_tetromino.wav");
-    LOAD_SOUND(assets->game_over_sound, "assets/game_over.wav");
-    LOAD_SOUND(assets->game_start_sound, "assets/game_start.wav");
-    LOAD_SOUND(assets->menu_open_sound, "assets/menu_open.wav");
-    LOAD_SOUND(assets->move_tetromino_sound, "assets/move_tetromino.wav");
-    LOAD_SOUND(assets->rotate_tetromino_sound, "assets/rotate_tetromino.wav");
+    assets->erase_lines_sound = sound_from_file("assets/erase_lines.wav");
+    assets->fit_tetromino_sound = sound_from_file("assets/fit_tetromino.wav");
+    assets->game_over_sound = sound_from_file("assets/game_over.wav");
+    assets->game_start_sound = sound_from_file("assets/game_start.wav");
+    assets->menu_open_sound = sound_from_file("assets/menu_open.wav");
+    assets->move_tetromino_sound = sound_from_file("assets/move_tetromino.wav");
+    assets->rotate_tetromino_sound =
+        sound_from_file("assets/rotate_tetromino.wav");
 }
 
 void assets_destroy(Assets *assets)
@@ -35,13 +37,13 @@ void assets_destroy(Assets *assets)
 
     FREE_FONT(assets->default_font);
 
-    FREE_MUSIC(assets->main_music);
+    music_destroy(&assets->main_music);
 
-    FREE_SOUND(assets->erase_lines_sound);
-    FREE_SOUND(assets->fit_tetromino_sound);
-    FREE_SOUND(assets->game_over_sound);
-    FREE_SOUND(assets->game_start_sound);
-    FREE_SOUND(assets->menu_open_sound);
-    FREE_SOUND(assets->move_tetromino_sound);
-    FREE_SOUND(assets->rotate_tetromino_sound);
+    sound_destroy(&assets->erase_lines_sound);
+    sound_destroy(&assets->fit_tetromino_sound);
+    sound_destroy(&assets->game_over_sound);
+    sound_destroy(&assets->game_start_sound);
+    sound_destroy(&assets->menu_open_sound);
+    sound_destroy(&assets->move_tetromino_sound);
+    sound_destroy(&assets->rotate_tetromino_sound);
 }
