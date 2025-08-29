@@ -1,5 +1,6 @@
 #include "mini_blocks.h"
 
+#include "SDL_render.h"
 #include "config.h"
 
 static const char *IMAGE = "####################################"
@@ -53,8 +54,6 @@ Texture mini_blocks_create(Texture mini_block, SDL_Renderer *renderer)
                                              SDL_TEXTUREACCESS_TARGET,
                                              WINDOW_WIDTH, WINDOW_HEIGHT);
     SDL_SetRenderTarget(renderer, texture);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
 
     int width = WINDOW_WIDTH / (TILE_SIZE / 2);
     int height = WINDOW_HEIGHT / (TILE_SIZE / 2);
