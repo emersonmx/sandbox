@@ -3,6 +3,7 @@
 
 #include "assets.h"
 #include "music.h"
+#include "sound.h"
 #include "sprite.h"
 #include "text.h"
 
@@ -11,6 +12,7 @@ typedef struct {
     Sprite mini_blocks_background;
     Music main_music;
     Text game_start_text;
+    Sound game_start_sound;
 } MainMenu;
 
 typedef struct {

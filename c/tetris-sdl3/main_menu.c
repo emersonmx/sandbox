@@ -39,7 +39,8 @@ void main_menu_init(MainMenu *menu, MainMenuInitOptions options)
             .mix_music = assets->main_music,
             .volume = 70.0f,
         },
-        .game_start_text = create_game_start_text(assets->default_font, renderer)
+        .game_start_text = create_game_start_text(assets->default_font, renderer),
+        .game_start_sound = { .mix_chunk = assets->game_start_sound },
     };
 
     music_play(&menu->main_music);
@@ -54,6 +55,12 @@ void main_menu_quit(MainMenu *menu)
 
 void main_menu_process_events(MainMenu *menu, SDL_Event *event)
 {
+    if (event->type == SDL_KEYDOWN) {
+        SDL_Keycode key = event->key.keysym.sym;
+        if (key == SDLK_RETURN || key == SDLK_KP_ENTER) {
+            sound_play(&menu->game_start_sound);
+        }
+    }
 }
 
 void main_menu_render(MainMenu *menu, SDL_Renderer *renderer)
