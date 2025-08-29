@@ -8,4 +8,4 @@ project(
 set(CMAKE_C_STANDARD 23)
 
 add_executable(void-arrays)
-target_sources(void-arrays PRIVATE main.c)
+target_sources(void-arrays PRIVATE main.c array.c)
