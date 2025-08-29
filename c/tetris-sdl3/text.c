@@ -9,7 +9,7 @@ void text_destroy(Text *text)
 
 void text_update(Text *text, SDL_Renderer *renderer)
 {
-    TTF_Font *font = text->font;
+    TTF_Font *font = text->font.ttf_font;
     if (!font) {
         SDL_Log("Cannot render text without a font");
         return;

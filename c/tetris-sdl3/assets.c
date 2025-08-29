@@ -2,7 +2,7 @@
 
 #include <SDL_image.h>
 
-#include "macros.h"
+#include "font.h"
 #include "sound.h"
 #include "texture.h"
 
@@ -14,7 +14,7 @@ void assets_load(Assets *assets, SDL_Renderer *renderer)
     assets->main_menu_bg =
         texture_from_file(renderer, "assets/main_menu_bg.png");
 
-    LOAD_FONT(assets->default_font, "assets/Chewy.ttf", 24);
+    assets->default_font = font_from_file("assets/Chewy.ttf", 24);
 
     assets->main_music = music_from_file("assets/main_music.ogg");
 
@@ -35,7 +35,7 @@ void assets_destroy(Assets *assets)
     texture_destroy(&assets->grid);
     texture_destroy(&assets->main_menu_bg);
 
-    FREE_FONT(assets->default_font);
+    font_destroy(&assets->default_font);
 
     music_destroy(&assets->main_music);
 

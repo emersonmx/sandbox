@@ -4,10 +4,11 @@
 #include <SDL2/SDL.h>
 #include <SDL_ttf.h>
 
+#include "font.h"
 #include "texture.h"
 
 typedef struct {
-    TTF_Font *font;
+    Font font;
     SDL_Color color;
     Texture texture;
     SDL_Point position;

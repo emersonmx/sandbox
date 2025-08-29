@@ -5,6 +5,7 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+#include "font.h"
 #include "music.h"
 #include "sound.h"
 #include "texture.h"
@@ -15,7 +16,7 @@ typedef struct {
     Texture grid;
     Texture main_menu_bg;
 
-    TTF_Font *default_font;
+    Font default_font;
 
     Music main_music;
 

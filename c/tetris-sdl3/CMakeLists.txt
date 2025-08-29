@@ -43,6 +43,7 @@ add_executable(tetris-sdl3)
 target_sources(tetris-sdl3
     PRIVATE
         assets.c
+        font.c
         game.c
         main.c
         main_menu.c

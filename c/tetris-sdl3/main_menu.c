@@ -5,7 +5,7 @@
 #include "music.h"
 #include "sprite.h"
 
-static Text create_game_start_text(TTF_Font *font, SDL_Renderer *renderer)
+static Text create_game_start_text(Font font, SDL_Renderer *renderer)
 {
     Text game_start_text = {
         .font = font,
