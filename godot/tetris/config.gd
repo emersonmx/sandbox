@@ -1,1 +1,1 @@
-extends RefCounted
+extends Node
