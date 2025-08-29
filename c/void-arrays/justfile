@@ -1,0 +1,24 @@
+setup type="Debug":
+    cmake \
+        -B build \
+        -S . \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE={{type}} \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_C_CFLAGS="-Wall -Werror -fsanitize=address"
+
+@build:
+    cmake --build build
+
+@run:
+    build/void-arrays
+
+@format:
+    find . \
+        -regex '.*\.\(c\|h\)' \
+        -not -path '*/build/*' \
+        -exec clang-format -style=file --verbose -i {} \;
+
+@clean:
+    rm -rf build/
+    rm -rf .cache/
