@@ -53,7 +53,11 @@ Texture mini_blocks_create(Texture mini_block, SDL_Renderer *renderer)
     SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
                                              SDL_TEXTUREACCESS_TARGET,
                                              WINDOW_WIDTH, WINDOW_HEIGHT);
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
     SDL_SetRenderTarget(renderer, texture);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderClear(renderer);
 
     int width = WINDOW_WIDTH / (TILE_SIZE / 2);
     int height = WINDOW_HEIGHT / (TILE_SIZE / 2);

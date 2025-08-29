@@ -100,7 +100,7 @@ static GameResult update(Game *game)
 
     SDL_Delay(FRAME_DELAY);
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     main_menu_render(&game->main_menu, renderer);
