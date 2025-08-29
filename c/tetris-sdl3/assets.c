@@ -1,4 +1,4 @@
-#include "assets.h"
+#include "resources.h"
 
 void assets_load(Assets *assets, SDL_Renderer *renderer)
 {

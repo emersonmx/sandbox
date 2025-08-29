@@ -1,4 +1,4 @@
-#include "music.h"
+#include "resources.h"
 
 Music music_from_file(const char *file_path)
 {

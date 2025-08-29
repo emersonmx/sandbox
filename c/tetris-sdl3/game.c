@@ -5,9 +5,9 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
-#include "assets.h"
 #include "config.h"
 #include "main_menu.h"
+#include "resources.h"
 
 typedef struct {
     SDL_Window *window;

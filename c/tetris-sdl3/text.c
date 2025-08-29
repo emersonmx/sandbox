@@ -1,4 +1,4 @@
-#include "text.h"
+#include "resources.h"
 
 void text_destroy(Text *text)
 {

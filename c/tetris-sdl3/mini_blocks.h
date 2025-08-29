@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "texture.h"
+#include "resources.h"
 
 Texture mini_blocks_create(Texture mini_block, SDL_Renderer *renderer);
 

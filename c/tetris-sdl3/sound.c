@@ -1,4 +1,4 @@
-#include "sound.h"
+#include "resources.h"
 
 Sound sound_from_file(const char *file_path)
 {

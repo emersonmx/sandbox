@@ -1,4 +1,4 @@
-#include "sprite.h"
+#include "resources.h"
 
 void sprite_render(Sprite *sprite, SDL_Renderer *renderer)
 {

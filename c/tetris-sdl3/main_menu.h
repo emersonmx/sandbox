@@ -1,11 +1,7 @@
 #ifndef MAIN_MENU
 #define MAIN_MENU
 
-#include "assets.h"
-#include "music.h"
-#include "sound.h"
-#include "sprite.h"
-#include "text.h"
+#include "resources.h"
 
 typedef struct {
     Sprite image_background;
