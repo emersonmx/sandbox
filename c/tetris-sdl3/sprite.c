@@ -1,6 +1,6 @@
 #include "sprite.h"
 
-void sprite_render(const Sprite *sprite, SDL_Renderer *renderer)
+void sprite_render(Sprite *sprite, SDL_Renderer *renderer)
 {
     SDL_Point position = {
         .x = sprite->position.x - sprite->offset.x,

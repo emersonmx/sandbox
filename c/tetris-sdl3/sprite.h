@@ -11,6 +11,6 @@ typedef struct {
     SDL_Point offset;
 } Sprite;
 
-void sprite_render(const Sprite *sprite, SDL_Renderer *renderer);
+void sprite_render(Sprite *sprite, SDL_Renderer *renderer);
 
 #endif // SPRITE_H

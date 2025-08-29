@@ -18,6 +18,6 @@ typedef struct {
 
 void text_destroy(Text *text);
 void text_update(Text *text, SDL_Renderer *renderer);
-void text_render(const Text *text, SDL_Renderer *renderer);
+void text_render(Text *text, SDL_Renderer *renderer);
 
 #endif // TEXT_H

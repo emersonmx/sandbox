@@ -26,7 +26,7 @@ void text_update(Text *text, SDL_Renderer *renderer)
     SDL_FreeSurface(surface);
 }
 
-void text_render(const Text *text, SDL_Renderer *renderer)
+void text_render(Text *text, SDL_Renderer *renderer)
 {
     SDL_Point position = {
         .x = text->position.x - text->offset.x,

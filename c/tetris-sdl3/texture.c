@@ -37,7 +37,7 @@ void texture_destroy(Texture *texture)
     }
 }
 
-void texture_render(const Texture *texture, SDL_Renderer *renderer,
+void texture_render(Texture *texture, SDL_Renderer *renderer,
                     SDL_Point position)
 {
     SDL_Texture *sdl_texture = texture->texture;
