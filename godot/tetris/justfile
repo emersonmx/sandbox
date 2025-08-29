@@ -1,0 +1,5 @@
+@format:
+    uvx --from gdtoolkit gdformat .
+
+@lint:
+    uvx --from gdtoolkit gdlint .
