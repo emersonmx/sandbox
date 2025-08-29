@@ -1,7 +1,6 @@
 #include "mini_blocks.h"
 
 #include "config.h"
-#include "texture.h"
 
 static const char *IMAGE = "####################################"
                            "####################################"

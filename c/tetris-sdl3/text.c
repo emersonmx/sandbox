@@ -1,5 +1,4 @@
 #include "text.h"
-#include "texture.h"
 
 void text_destroy(Text *text)
 {

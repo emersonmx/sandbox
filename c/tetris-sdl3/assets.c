@@ -1,11 +1,5 @@
 #include "assets.h"
 
-#include <SDL_image.h>
-
-#include "font.h"
-#include "sound.h"
-#include "texture.h"
-
 void assets_load(Assets *assets, SDL_Renderer *renderer)
 {
     assets->block = texture_from_file(renderer, "assets/block.png");

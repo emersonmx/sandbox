@@ -2,8 +2,6 @@
 
 #include "config.h"
 #include "mini_blocks.h"
-#include "music.h"
-#include "sprite.h"
 
 static Text create_game_start_text(Font font, SDL_Renderer *renderer)
 {
