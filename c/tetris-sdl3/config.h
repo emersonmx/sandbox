@@ -5,8 +5,8 @@
 #define APP_VERSION "1.0"
 #define APP_ID      "dev.emersonmx.tetris-sdl3"
 
-#define WINDOW_WIDTH  575
-#define WINDOW_HEIGHT 575
+#define WINDOW_WIDTH  576
+#define WINDOW_HEIGHT 576
 #define WINDOW_TITLE  "Tetris"
 
 #define TILE_SIZE 32
