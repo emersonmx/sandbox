@@ -5,13 +5,13 @@ setup type="Debug":
         -G Ninja \
         -DCMAKE_BUILD_TYPE={{type}} \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-        -DCMAKE_C_CFLAGS="-Wall -Werror -fsanitize=address"
+        -DCMAKE_C_FLAGS="-Wall -Werror -fsanitize=address"
 
 @build:
     cmake --build build
 
 @run:
-    build/void-arrays
+    build/void-data-structs
 
 @format:
     find . \
