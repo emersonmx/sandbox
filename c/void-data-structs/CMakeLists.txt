@@ -8,5 +8,18 @@ project(
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(void-data-structs)
-target_sources(void-data-structs PRIVATE main.c array.c)
+include(FetchContent)
+FetchContent_Declare(
+    unity
+    URL https://github.com/ThrowTheSwitch/Unity/archive/refs/tags/v2.6.1.tar.gz
+    URL_HASH SHA256=b41a66d45a6b99758fb3202ace6178177014d52fc524bf1f72687d93e9867292
+)
+FetchContent_MakeAvailable(unity)
+
+include(CTest)
+
+add_executable(array_test)
+target_sources(array_test PRIVATE array_test.c array.c)
+target_include_directories(array_test PRIVATE ${unity_SOURCE_DIR}/src)
+target_link_libraries(array_test unity)
+add_test(array_test array_test)
