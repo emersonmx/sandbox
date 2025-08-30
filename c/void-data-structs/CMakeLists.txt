@@ -24,6 +24,12 @@ target_include_directories(array_test PRIVATE ${unity_SOURCE_DIR}/src)
 target_link_libraries(array_test unity)
 add_test(array_test array_test)
 
+add_executable(stack_test)
+target_sources(stack_test PRIVATE stack_test.c stack.c)
+target_include_directories(stack_test PRIVATE ${unity_SOURCE_DIR}/src)
+target_link_libraries(stack_test unity)
+add_test(stack_test stack_test)
+
 add_executable(deque_test)
 target_sources(deque_test PRIVATE deque_test.c deque.c)
 target_include_directories(deque_test PRIVATE ${unity_SOURCE_DIR}/src)
