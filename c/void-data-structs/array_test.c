@@ -6,6 +6,7 @@
 void setUp(void)
 {
 }
+
 void tearDown(void)
 {
 }
@@ -128,11 +129,13 @@ void test_array_pop()
 int main()
 {
     UNITY_BEGIN();
+
     RUN_TEST(test_array_init_and_free);
     RUN_TEST(test_array_push_and_get);
     RUN_TEST(test_array_insert);
     RUN_TEST(test_array_remove);
     RUN_TEST(test_array_grow);
     RUN_TEST(test_array_pop);
+
     return UNITY_END();
 }
