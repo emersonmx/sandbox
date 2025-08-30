@@ -6,6 +6,7 @@
 void setUp(void)
 {
 }
+
 void tearDown(void)
 {
 }
@@ -64,7 +65,7 @@ void test_deque_push_front_and_back()
     TEST_ASSERT_EQUAL_INT(c, *(int *)deque_get(&deque, 2));
 
     size_t old_size = deque.size;
-    deque_push_front(&deque, &b); // This should trigger a grow
+    deque_push_front(&deque, &b);
     TEST_ASSERT_EQUAL_size_t(old_size + 1, deque.size);
     TEST_ASSERT_EQUAL_INT(b, *(int *)deque_get(&deque, 0));
 
@@ -102,9 +103,11 @@ void test_deque_pop_front_and_back()
 int main(void)
 {
     UNITY_BEGIN();
+
     RUN_TEST(test_deque_init_and_free);
     RUN_TEST(test_deque_push_and_get);
     RUN_TEST(test_deque_push_front_and_back);
     RUN_TEST(test_deque_pop_front_and_back);
+
     return UNITY_END();
 }
