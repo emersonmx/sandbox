@@ -12,7 +12,7 @@ int main()
     unsigned y = 24; // 00011000
     unsigned r = setbits(x, 5, 4, y); // 11011011
 
-    printf("%u\n", (unsigned)r);
+    printf("%u\n", (unsigned) r);
     return 0;
 }
 

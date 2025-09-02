@@ -4,7 +4,7 @@ void shellsort(int v[], int n);
 
 int main()
 {
-    int v[] = {3, 2, 5, 4, 1, 6, 7, 8, 9, 0};
+    int v[] = { 3, 2, 5, 4, 1, 6, 7, 8, 9, 0 };
     int size = sizeof(v) / sizeof(v[0]);
     shellsort(v, size);
 

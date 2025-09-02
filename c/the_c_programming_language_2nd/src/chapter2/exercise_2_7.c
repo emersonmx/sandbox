@@ -11,7 +11,7 @@ int main()
     unsigned x = 215; // 11010111
     unsigned r = invert(x, 5, 4); // 11101011
 
-    printf("%u\n", (unsigned)r);
+    printf("%u\n", (unsigned) r);
     return 0;
 }
 
