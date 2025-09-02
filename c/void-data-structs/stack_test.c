@@ -34,10 +34,10 @@ void test_stack_push_and_top()
 
     int a = 10, b = 20;
     stack_push(&stack, &a);
-    TEST_ASSERT_EQUAL_INT(a, *(int *)stack_top(&stack));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) stack_top(&stack));
 
     stack_push(&stack, &b);
-    TEST_ASSERT_EQUAL_INT(b, *(int *)stack_top(&stack));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) stack_top(&stack));
 
     TEST_ASSERT_EQUAL_size_t(2, stack.size);
 
@@ -55,7 +55,7 @@ void test_stack_pop()
 
     stack_pop(&stack);
     TEST_ASSERT_EQUAL_size_t(1, stack.size);
-    TEST_ASSERT_EQUAL_INT(a, *(int *)stack_top(&stack));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) stack_top(&stack));
 
     stack_pop(&stack);
     TEST_ASSERT_EQUAL_size_t(0, stack.size);
