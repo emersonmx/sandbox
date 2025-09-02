@@ -11,7 +11,7 @@ int main()
     unsigned x = 206; // 11001110
     unsigned r = rightrot(x, 2); // 10110011
 
-    printf("%u\n", (unsigned)r);
+    printf("%u\n", (unsigned) r);
     return 0;
 }
 
@@ -24,7 +24,7 @@ unsigned rightrot(unsigned x, int n)
 int length(void)
 {
     int i;
-    unsigned l = (unsigned)~0;
+    unsigned l = (unsigned) ~0;
 
     for (i = 1; (l = l >> 1) > 0; ++i)
         ;

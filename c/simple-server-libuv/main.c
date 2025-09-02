@@ -8,10 +8,10 @@ void signal_cb(uv_signal_t *handle, int signum)
     printf("\nReceived SIGINT, shutting down gracefully...\n");
     uv_tcp_t *server = handle->data;
     if (server) {
-        uv_close((uv_handle_t *)server, NULL);
+        uv_close((uv_handle_t *) server, NULL);
     }
     uv_signal_stop(handle);
-    uv_close((uv_handle_t *)handle, NULL);
+    uv_close((uv_handle_t *) handle, NULL);
 }
 
 void client_close_cb(uv_handle_t *client)
@@ -21,7 +21,7 @@ void client_close_cb(uv_handle_t *client)
 
 void alloc_buffer(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf)
 {
-    buf->base = (char *)malloc(suggested_size);
+    buf->base = (char *) malloc(suggested_size);
     if (buf->base == NULL) {
         fprintf(stderr, "failed to allocate memory for buffer\n");
         buf->len = 0;
@@ -46,7 +46,7 @@ void read_cb(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
                               "Content-Length: 13\r\n"
                               "\r\n"
                               "Hello, World!";
-            uv_buf_t wrbuf = uv_buf_init((char *)res, strlen(res));
+            uv_buf_t wrbuf = uv_buf_init((char *) res, strlen(res));
             uv_write_t *req = malloc(sizeof(uv_write_t));
             int err = uv_write(req, client, &wrbuf, 1, req_write_cb);
             if (err) {
@@ -58,7 +58,7 @@ void read_cb(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
                               "Content-Length: 9\r\n"
                               "\r\n"
                               "Not Found";
-            uv_buf_t wrbuf = uv_buf_init((char *)res, strlen(res));
+            uv_buf_t wrbuf = uv_buf_init((char *) res, strlen(res));
             uv_write_t *req = malloc(sizeof(uv_write_t));
             int err = uv_write(req, client, &wrbuf, 1, req_write_cb);
             if (err) {
@@ -67,9 +67,9 @@ void read_cb(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf)
             }
         }
 
-        uv_close((uv_handle_t *)client, client_close_cb);
+        uv_close((uv_handle_t *) client, client_close_cb);
     } else if (nread < 0)
-        uv_close((uv_handle_t *)client, client_close_cb);
+        uv_close((uv_handle_t *) client, client_close_cb);
 
     if (buf->base)
         free(buf->base);
@@ -95,16 +95,16 @@ void on_new_connection(uv_stream_t *server, int status)
         return;
     }
 
-    err = uv_accept(server, (uv_stream_t *)client);
+    err = uv_accept(server, (uv_stream_t *) client);
     if (err) {
         fprintf(stderr, "accept error: %s\n", uv_strerror(err));
-        uv_close((uv_handle_t *)client, client_close_cb);
+        uv_close((uv_handle_t *) client, client_close_cb);
         return;
     }
 
     struct sockaddr_in peer_addr;
     int addr_len = sizeof(peer_addr);
-    err = uv_tcp_getpeername(client, (struct sockaddr *)&peer_addr, &addr_len);
+    err = uv_tcp_getpeername(client, (struct sockaddr *) &peer_addr, &addr_len);
     if (err)
         printf("accepted new connection (unable to get peer address)\n");
     else {
@@ -113,7 +113,7 @@ void on_new_connection(uv_stream_t *server, int status)
         printf("connection from %s:%d\n", ip, ntohs(peer_addr.sin_port));
     }
 
-    err = uv_read_start((uv_stream_t *)client, alloc_buffer, read_cb);
+    err = uv_read_start((uv_stream_t *) client, alloc_buffer, read_cb);
     if (err) {
         fprintf(stderr, "read start error: %s\n", uv_strerror(err));
     }
@@ -146,13 +146,14 @@ int main()
         return 1;
     }
 
-    err = uv_tcp_bind(&server, (const struct sockaddr *)&addr, 0);
+    err = uv_tcp_bind(&server, (const struct sockaddr *) &addr, 0);
     if (err) {
         fprintf(stderr, "bind error: %s\n", uv_strerror(err));
         return 1;
     }
 
-    err = uv_listen((uv_stream_t *)&server, default_backlog, on_new_connection);
+    err =
+        uv_listen((uv_stream_t *) &server, default_backlog, on_new_connection);
     if (err) {
         fprintf(stderr, "listen error: %s\n", uv_strerror(err));
         return 1;

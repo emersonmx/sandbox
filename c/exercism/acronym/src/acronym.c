@@ -1,9 +1,9 @@
 #include "acronym.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char *abbreviate(const char *phrase)
 {
@@ -20,7 +20,7 @@ char *abbreviate(const char *phrase)
 
     bool after_delim = true;
     int abbr_index = 0;
-    char* abbr = calloc(words + 1, sizeof(char));
+    char *abbr = calloc(words + 1, sizeof(char));
 
     for (int i = 0; phrase[i] != '\0'; ++i) {
         c = toupper(phrase[i]);
@@ -32,7 +32,7 @@ char *abbreviate(const char *phrase)
         if (!after_delim) {
             continue;
         }
-        
+
         abbr[abbr_index++] = c;
         after_delim = false;
     }

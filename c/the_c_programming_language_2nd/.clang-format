@@ -3,5 +3,15 @@ IndentWidth: 4
 AllowShortFunctionsOnASingleLine: None
 KeepEmptyLinesAtTheStartOfBlocks: false
 BreakBeforeBraces: Linux
-AlignTrailingComments: false
-AlignConsecutiveMacros: true
+AlignAfterOpenBracket: Align
+AlignTrailingComments:
+  Kind: Never
+  OverEmptyLines: 0
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: false
+Cpp11BracedListStyle: false
+SpaceAfterCStyleCast: true
