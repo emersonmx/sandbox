@@ -16,7 +16,7 @@ void *array_get(Array *array, size_t index)
     if (index >= array->size)
         return NULL;
 
-    return (char *)array->data + index * array->item_size;
+    return (char *) array->data + index * array->item_size;
 }
 
 void array_grow(Array *array, size_t new_capacity)
@@ -36,8 +36,8 @@ void array_insert(Array *array, size_t index, void *item)
     if (array->size >= array->capacity)
         array_grow(array, array->capacity * 2);
 
-    void *target = (char *)array->data + index * array->item_size;
-    memmove((char *)target + array->item_size, target,
+    void *target = (char *) array->data + index * array->item_size;
+    memmove((char *) target + array->item_size, target,
             (array->size - index) * array->item_size);
     memcpy(target, item, array->item_size);
     array->size++;
@@ -48,8 +48,8 @@ void array_remove(Array *array, size_t index)
     if (index >= array->size)
         return;
 
-    void *target = (char *)array->data + index * array->item_size;
-    memmove(target, (char *)target + array->item_size,
+    void *target = (char *) array->data + index * array->item_size;
+    memmove(target, (char *) target + array->item_size,
             (array->size - index - 1) * array->item_size);
     array->size--;
 }
@@ -70,5 +70,5 @@ void array_pop(Array *array)
 void array_free(Array *array)
 {
     free(array->data);
-    *array = (Array){ 0 };
+    *array = (Array) { 0 };
 }

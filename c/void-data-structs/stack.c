@@ -16,7 +16,7 @@ void *stack_top(Stack *stack)
     if (stack->size == 0)
         return NULL;
 
-    return (char *)stack->data + (stack->size - 1) * stack->item_size;
+    return (char *) stack->data + (stack->size - 1) * stack->item_size;
 }
 
 void stack_push(Stack *stack, void *item)
@@ -27,7 +27,7 @@ void stack_push(Stack *stack, void *item)
         stack->capacity *= 2;
     }
 
-    memcpy((char *)stack->data + stack->size * stack->item_size, item,
+    memcpy((char *) stack->data + stack->size * stack->item_size, item,
            stack->item_size);
     stack->size++;
 }

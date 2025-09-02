@@ -37,8 +37,8 @@ void test_array_push_and_get()
     array_push(&arr, &b);
 
     TEST_ASSERT_EQUAL_size_t(2, arr.size);
-    TEST_ASSERT_EQUAL_INT(a, *(int *)array_get(&arr, 0));
-    TEST_ASSERT_EQUAL_INT(b, *(int *)array_get(&arr, 1));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) array_get(&arr, 0));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) array_get(&arr, 1));
 
     TEST_ASSERT_NULL(array_get(&arr, 2));
 
@@ -57,9 +57,9 @@ void test_array_insert()
     array_insert(&arr, 1, &b);
 
     TEST_ASSERT_EQUAL_size_t(3, arr.size);
-    TEST_ASSERT_EQUAL_INT(a, *(int *)array_get(&arr, 0));
-    TEST_ASSERT_EQUAL_INT(b, *(int *)array_get(&arr, 1));
-    TEST_ASSERT_EQUAL_INT(c, *(int *)array_get(&arr, 2));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) array_get(&arr, 0));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) array_get(&arr, 1));
+    TEST_ASSERT_EQUAL_INT(c, *(int *) array_get(&arr, 2));
 
     size_t old_size = arr.size;
     array_insert(&arr, 5, &a);
@@ -80,8 +80,8 @@ void test_array_remove()
 
     array_remove(&arr, 1);
     TEST_ASSERT_EQUAL_size_t(2, arr.size);
-    TEST_ASSERT_EQUAL_INT(a, *(int *)array_get(&arr, 0));
-    TEST_ASSERT_EQUAL_INT(c, *(int *)array_get(&arr, 1));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) array_get(&arr, 0));
+    TEST_ASSERT_EQUAL_INT(c, *(int *) array_get(&arr, 1));
 
     size_t old_size = arr.size;
     array_remove(&arr, 5);
@@ -115,7 +115,7 @@ void test_array_pop()
 
     array_pop(&arr);
     TEST_ASSERT_EQUAL_size_t(1, arr.size);
-    TEST_ASSERT_EQUAL_INT(a, *(int *)array_get(&arr, 0));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) array_get(&arr, 0));
 
     array_pop(&arr);
     TEST_ASSERT_EQUAL_size_t(0, arr.size);

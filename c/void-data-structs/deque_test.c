@@ -41,8 +41,8 @@ void test_deque_push_and_get()
     deque_push_back(&deque, &b);
 
     TEST_ASSERT_EQUAL_size_t(2, deque.size);
-    TEST_ASSERT_EQUAL_INT(a, *(int *)deque_get(&deque, 0));
-    TEST_ASSERT_EQUAL_INT(b, *(int *)deque_get(&deque, 1));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) deque_get(&deque, 0));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) deque_get(&deque, 1));
 
     TEST_ASSERT_NULL(deque_get(&deque, 2));
 
@@ -60,14 +60,14 @@ void test_deque_push_front_and_back()
     deque_push_back(&deque, &c);
 
     TEST_ASSERT_EQUAL_size_t(3, deque.size);
-    TEST_ASSERT_EQUAL_INT(b, *(int *)deque_get(&deque, 0));
-    TEST_ASSERT_EQUAL_INT(a, *(int *)deque_get(&deque, 1));
-    TEST_ASSERT_EQUAL_INT(c, *(int *)deque_get(&deque, 2));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) deque_get(&deque, 0));
+    TEST_ASSERT_EQUAL_INT(a, *(int *) deque_get(&deque, 1));
+    TEST_ASSERT_EQUAL_INT(c, *(int *) deque_get(&deque, 2));
 
     size_t old_size = deque.size;
     deque_push_front(&deque, &b);
     TEST_ASSERT_EQUAL_size_t(old_size + 1, deque.size);
-    TEST_ASSERT_EQUAL_INT(b, *(int *)deque_get(&deque, 0));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) deque_get(&deque, 0));
 
     deque_free(&deque);
 }
@@ -84,12 +84,12 @@ void test_deque_pop_front_and_back()
 
     deque_pop_front(&deque);
     TEST_ASSERT_EQUAL_size_t(2, deque.size);
-    TEST_ASSERT_EQUAL_INT(b, *(int *)deque_get(&deque, 0));
-    TEST_ASSERT_EQUAL_INT(c, *(int *)deque_get(&deque, 1));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) deque_get(&deque, 0));
+    TEST_ASSERT_EQUAL_INT(c, *(int *) deque_get(&deque, 1));
 
     deque_pop_back(&deque);
     TEST_ASSERT_EQUAL_size_t(1, deque.size);
-    TEST_ASSERT_EQUAL_INT(b, *(int *)deque_get(&deque, 0));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) deque_get(&deque, 0));
 
     deque_pop_front(&deque);
     TEST_ASSERT_EQUAL_size_t(0, deque.size);
