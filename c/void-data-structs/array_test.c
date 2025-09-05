@@ -11,7 +11,7 @@ void tearDown(void)
 {
 }
 
-void test_array_init_and_free()
+void test_array_init_and_free(void)
 {
     Array arr;
     array_init(&arr, sizeof(int), 4);
@@ -27,7 +27,7 @@ void test_array_init_and_free()
     TEST_ASSERT_EQUAL_size_t(0, arr.item_size);
 }
 
-void test_array_push_and_get()
+void test_array_push_and_get(void)
 {
     Array arr;
     array_init(&arr, sizeof(int), 2);
@@ -45,7 +45,7 @@ void test_array_push_and_get()
     array_free(&arr);
 }
 
-void test_array_insert()
+void test_array_insert(void)
 {
     Array arr;
     array_init(&arr, sizeof(int), 2);
@@ -68,7 +68,7 @@ void test_array_insert()
     array_free(&arr);
 }
 
-void test_array_remove()
+void test_array_remove(void)
 {
     Array arr;
     array_init(&arr, sizeof(int), 3);
@@ -90,7 +90,7 @@ void test_array_remove()
     array_free(&arr);
 }
 
-void test_array_grow()
+void test_array_grow(void)
 {
     Array arr;
     array_init(&arr, sizeof(int), 2);
@@ -104,7 +104,7 @@ void test_array_grow()
     array_free(&arr);
 }
 
-void test_array_pop()
+void test_array_pop(void)
 {
     Array arr;
     array_init(&arr, sizeof(int), 2);
@@ -126,7 +126,7 @@ void test_array_pop()
     array_free(&arr);
 }
 
-int main()
+int main(void)
 {
     UNITY_BEGIN();
 
