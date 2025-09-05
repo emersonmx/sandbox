@@ -11,7 +11,7 @@ void tearDown(void)
 {
 }
 
-void test_deque_init_and_free()
+void test_deque_init_and_free(void)
 {
     Deque deque;
     deque_init(&deque, sizeof(int), 4);
@@ -31,7 +31,7 @@ void test_deque_init_and_free()
     TEST_ASSERT_EQUAL_size_t(0, deque.back);
 }
 
-void test_deque_push_and_get()
+void test_deque_push_and_get(void)
 {
     Deque deque;
     deque_init(&deque, sizeof(int), 2);
@@ -49,7 +49,7 @@ void test_deque_push_and_get()
     deque_free(&deque);
 }
 
-void test_deque_push_front_and_back()
+void test_deque_push_front_and_back(void)
 {
     Deque deque;
     deque_init(&deque, sizeof(int), 2);
@@ -72,7 +72,7 @@ void test_deque_push_front_and_back()
     deque_free(&deque);
 }
 
-void test_deque_pop_front_and_back()
+void test_deque_pop_front_and_back(void)
 {
     Deque deque;
     deque_init(&deque, sizeof(int), 2);

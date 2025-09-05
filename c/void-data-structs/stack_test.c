@@ -1,4 +1,3 @@
-#include <string.h>
 #include <unity.h>
 
 #include "stack.h"
@@ -11,7 +10,7 @@ void tearDown(void)
 {
 }
 
-void test_stack_init_and_free()
+void test_stack_init_and_free(void)
 {
     Stack stack;
     stack_init(&stack, sizeof(int), 4);
@@ -27,7 +26,7 @@ void test_stack_init_and_free()
     TEST_ASSERT_EQUAL_size_t(0, stack.item_size);
 }
 
-void test_stack_push_and_top()
+void test_stack_push_and_top(void)
 {
     Stack stack;
     stack_init(&stack, sizeof(int), 2);
@@ -44,7 +43,7 @@ void test_stack_push_and_top()
     stack_free(&stack);
 }
 
-void test_stack_pop()
+void test_stack_pop(void)
 {
     Stack stack;
     stack_init(&stack, sizeof(int), 2);
@@ -68,7 +67,7 @@ void test_stack_pop()
     stack_free(&stack);
 }
 
-int main()
+int main(void)
 {
     UNITY_BEGIN();
 
