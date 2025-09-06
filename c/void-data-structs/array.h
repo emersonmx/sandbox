@@ -12,7 +12,6 @@ typedef struct {
 
 void array_init(Array *array, size_t item_size, size_t capacity);
 void *array_get(Array *array, size_t index);
-void array_grow(Array *array, size_t new_capacity);
 void array_insert(Array *array, size_t index, void *item);
 void array_remove(Array *array, size_t index);
 void array_push(Array *array, void *item);

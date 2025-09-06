@@ -90,16 +90,21 @@ void test_array_remove(void)
     array_free(&arr);
 }
 
-void test_array_grow(void)
+void test_update_capacity(void)
 {
     Array arr;
     array_init(&arr, sizeof(int), 2);
 
-    array_grow(&arr, 5);
-    TEST_ASSERT_EQUAL_size_t(5, arr.capacity);
+    int a = 1, b = 2, c = 3;
+    array_push(&arr, &a);
+    array_push(&arr, &b);
+    array_push(&arr, &c);
 
-    array_grow(&arr, 3);
-    TEST_ASSERT_EQUAL_size_t(5, arr.capacity);
+    TEST_ASSERT_EQUAL_size_t(3, arr.size);
+    TEST_ASSERT_EQUAL_size_t(4, arr.capacity);
+    TEST_ASSERT_EQUAL_INT(a, *(int *) array_get(&arr, 0));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) array_get(&arr, 1));
+    TEST_ASSERT_EQUAL_INT(c, *(int *) array_get(&arr, 2));
 
     array_free(&arr);
 }
@@ -134,7 +139,7 @@ int main(void)
     RUN_TEST(test_array_push_and_get);
     RUN_TEST(test_array_insert);
     RUN_TEST(test_array_remove);
-    RUN_TEST(test_array_grow);
+    RUN_TEST(test_update_capacity);
     RUN_TEST(test_array_pop);
 
     return UNITY_END();

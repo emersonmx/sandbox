@@ -14,7 +14,6 @@ typedef struct {
 
 void deque_init(Deque *deque, size_t item_size, size_t capacity);
 void *deque_get(Deque *deque, size_t index);
-void deque_grow(Deque *deque, size_t new_capacity);
 void deque_push_front(Deque *deque, void *item);
 void deque_push_back(Deque *deque, void *item);
 void deque_pop_front(Deque *deque);

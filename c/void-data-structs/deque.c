@@ -22,7 +22,7 @@ void *deque_get(Deque *deque, size_t index)
     return (char *) deque->data + real_index * deque->item_size;
 }
 
-void deque_grow(Deque *deque, size_t new_capacity)
+static void update_capacity(Deque *deque, size_t new_capacity)
 {
     if (new_capacity <= deque->capacity)
         return;
@@ -45,7 +45,7 @@ void deque_grow(Deque *deque, size_t new_capacity)
 void deque_push_front(Deque *deque, void *item)
 {
     if (deque->size >= deque->capacity)
-        deque_grow(deque, deque->capacity * 2);
+        update_capacity(deque, deque->capacity * 2);
 
     deque->front = (deque->front == 0) ? deque->capacity - 1 : deque->front - 1;
     memcpy((char *) deque->data + deque->front * deque->item_size, item,
@@ -56,7 +56,7 @@ void deque_push_front(Deque *deque, void *item)
 void deque_push_back(Deque *deque, void *item)
 {
     if (deque->size >= deque->capacity)
-        deque_grow(deque, deque->capacity * 2);
+        update_capacity(deque, deque->capacity * 2);
 
     memcpy((char *) deque->data + deque->back * deque->item_size, item,
            deque->item_size);
