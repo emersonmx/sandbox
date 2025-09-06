@@ -100,6 +100,25 @@ void test_deque_pop_front_and_back(void)
     deque_free(&deque);
 }
 
+void test_deque_update_capacity(void)
+{
+    Deque deque;
+    deque_init(&deque, sizeof(int), 2);
+
+    int a = 1, b = 2, c = 3;
+    deque_push_back(&deque, &a);
+    deque_push_back(&deque, &b);
+    deque_push_back(&deque, &c);
+
+    TEST_ASSERT_EQUAL_size_t(3, deque.size);
+    TEST_ASSERT_EQUAL_size_t(4, deque.capacity);
+    TEST_ASSERT_EQUAL_INT(a, *(int *) deque_get(&deque, 0));
+    TEST_ASSERT_EQUAL_INT(b, *(int *) deque_get(&deque, 1));
+    TEST_ASSERT_EQUAL_INT(c, *(int *) deque_get(&deque, 2));
+
+    deque_free(&deque);
+}
+
 int main(void)
 {
     UNITY_BEGIN();
@@ -108,6 +127,7 @@ int main(void)
     RUN_TEST(test_deque_push_and_get);
     RUN_TEST(test_deque_push_front_and_back);
     RUN_TEST(test_deque_pop_front_and_back);
+    RUN_TEST(test_deque_update_capacity);
 
     return UNITY_END();
 }

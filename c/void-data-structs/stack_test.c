@@ -67,6 +67,23 @@ void test_stack_pop(void)
     stack_free(&stack);
 }
 
+void test_update_capacity(void)
+{
+    Stack stack;
+    stack_init(&stack, sizeof(int), 2);
+
+    int a = 1, b = 2, c = 3;
+    stack_push(&stack, &a);
+    stack_push(&stack, &b);
+    stack_push(&stack, &c);
+
+    TEST_ASSERT_EQUAL_size_t(3, stack.size);
+    TEST_ASSERT_EQUAL_size_t(4, stack.capacity);
+    TEST_ASSERT_EQUAL_INT(c, *(int *) stack_top(&stack));
+
+    stack_free(&stack);
+}
+
 int main(void)
 {
     UNITY_BEGIN();
@@ -74,6 +91,7 @@ int main(void)
     RUN_TEST(test_stack_init_and_free);
     RUN_TEST(test_stack_push_and_top);
     RUN_TEST(test_stack_pop);
+    RUN_TEST(test_update_capacity);
 
     return UNITY_END();
 }

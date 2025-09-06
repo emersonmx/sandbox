@@ -19,7 +19,7 @@ void *array_get(Array *array, size_t index)
     return (char *) array->data + index * array->item_size;
 }
 
-void array_grow(Array *array, size_t new_capacity)
+static void update_capacity(Array *array, size_t new_capacity)
 {
     if (new_capacity <= array->capacity)
         return;
@@ -34,7 +34,7 @@ void array_insert(Array *array, size_t index, void *item)
         return;
 
     if (array->size >= array->capacity)
-        array_grow(array, array->capacity * 2);
+        update_capacity(array, array->capacity * 2);
 
     void *target = (char *) array->data + index * array->item_size;
     memmove((char *) target + array->item_size, target,
