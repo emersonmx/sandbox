@@ -7,6 +7,7 @@ project(
 )
 
 set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD_REQUIRED True)
 
 include(FetchContent)
 FetchContent_Declare(
