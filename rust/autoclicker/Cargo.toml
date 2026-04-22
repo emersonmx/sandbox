@@ -1,0 +1,12 @@
+[package]
+name = "autoclicker"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+evdev = "0.13"
+thiserror = "2"
+
+[dev-dependencies]
+rstest = "0"
