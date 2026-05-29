@@ -15,11 +15,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Reset local changes
-        run: |
-          git reset --hard
-          git clean -fdx
-
       - name: Update submodules
         run: |
           git submodule update --remote
