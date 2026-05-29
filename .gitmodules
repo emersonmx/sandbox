@@ -1,0 +1,3 @@
+[submodule "rust/bevy/pong"]
+	path = rust/bevy/pong
+	url = https://github.com/emersonmx/pong-in-bevy
