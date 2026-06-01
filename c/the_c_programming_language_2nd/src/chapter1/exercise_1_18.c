@@ -6,13 +6,13 @@
 
 #define MAXLINE 1000
 
-int  getline(char line[], int maxline);
-int  trimline(char line[], int maxline);
+int getline(char line[], int maxline);
+int trimline(char line[], int maxline);
 bool myisblank(char c);
 
 int main()
 {
-    int  len;
+    int len;
     char line[MAXLINE];
 
     while ((len = getline(line, MAXLINE)) > 0)

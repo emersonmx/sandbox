@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 unsigned rightrot(unsigned x, int n);
-int      length(void);
+int length(void);
 
 int main()
 {
@@ -23,7 +23,7 @@ unsigned rightrot(unsigned x, int n)
 
 int length(void)
 {
-    int      i;
+    int i;
     unsigned l = (unsigned)~0;
 
     for (i = 1; (l = l >> 1) > 0; ++i)

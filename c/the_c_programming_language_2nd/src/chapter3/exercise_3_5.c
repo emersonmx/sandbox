@@ -13,7 +13,7 @@ void itob(int n, char s[], int b);
 
 int main()
 {
-    int  n, b;
+    int n, b;
     char s[MAXSIZE];
 
     n = 49862; // c2c6

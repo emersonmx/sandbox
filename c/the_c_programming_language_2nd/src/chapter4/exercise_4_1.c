@@ -10,7 +10,7 @@ int strrindex(char s[], char p[]);
 
 int main()
 {
-    int  found = 0;
+    int found = 0;
     char line[MAXSIZE];
     char pattern[] = "ould";
 

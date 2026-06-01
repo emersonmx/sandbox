@@ -19,7 +19,7 @@ void default_state(int c);
 int main()
 {
     extern int state;
-    int        c;
+    int c;
 
     while ((c = getchar()) != EOF) {
         if (state == SL_COMMENT)
@@ -48,7 +48,7 @@ void sl_comment_state(int c)
 void ml_comment_state(int c)
 {
     extern int state;
-    int        nc;
+    int nc;
 
     if (c == '*') {
         nc = getchar();
@@ -63,7 +63,7 @@ void ml_comment_state(int c)
 void string_state(int c)
 {
     extern int state;
-    int        nc;
+    int nc;
 
     if (c == '\\') {
         nc = getchar();
@@ -84,7 +84,7 @@ void string_state(int c)
 void default_state(int c)
 {
     extern int state;
-    int        nc;
+    int nc;
 
     if (c == '/') {
         nc = getchar();
