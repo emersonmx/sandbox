@@ -6,7 +6,7 @@ use bevy::{
 };
 
 const TIME_STEP: f32 = 1.0 / 60.0;
-const SPRITESHEET_SIZE: (usize, usize) = (4, 3);
+const SPRITESHEET_SIZE: (usize, usize) = (3, 4);
 
 #[derive(Component, Debug)]
 struct Player;
@@ -37,22 +37,22 @@ struct PlayerAnimations {
 }
 
 fn create_player_animations(
-    mut handles: ResMut<PlayerAnimations>,
+    mut animations: ResMut<PlayerAnimations>,
     mut assets: ResMut<Assets<SpriteSheetAnimation>>,
 ) {
-    handles.up = assets.add(SpriteSheetAnimation::from_range(
+    animations.up = assets.add(SpriteSheetAnimation::from_range(
         0..=2,
         Duration::from_millis(150),
     ));
-    handles.right = assets.add(SpriteSheetAnimation::from_range(
+    animations.right = assets.add(SpriteSheetAnimation::from_range(
         3..=5,
         Duration::from_millis(150),
     ));
-    handles.down = assets.add(SpriteSheetAnimation::from_range(
+    animations.down = assets.add(SpriteSheetAnimation::from_range(
         6..=8,
         Duration::from_millis(150),
     ));
-    handles.left = assets.add(SpriteSheetAnimation::from_range(
+    animations.left = assets.add(SpriteSheetAnimation::from_range(
         9..=11,
         Duration::from_millis(150),
     ));
@@ -71,23 +71,19 @@ fn setup_player(
     let texture_handle = asset_server.load("player/spritesheet.png");
     let texture_atlas = TextureAtlas::from_grid(
         texture_handle,
-        Vec2::new(64.0, 64.0),
-        SPRITESHEET_SIZE.1,
+        Vec2::splat(64.0),
         SPRITESHEET_SIZE.0,
+        SPRITESHEET_SIZE.1,
     );
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
 
     command
         .spawn_bundle(SpriteSheetBundle {
             texture_atlas: texture_atlas_handle,
-            transform: Transform {
-                translation: Vec3::new(0.0, 0.0, 0.0),
-                ..Default::default()
-            },
             ..Default::default()
         })
         .insert(Player)
-        .insert(Speed { 0: 300.0 })
+        .insert(Speed(300.0))
         .insert(CharacterState::Idle)
         .insert(Direction::Down)
         .insert(animations.down.clone());
@@ -100,7 +96,9 @@ fn move_player(
         With<Player>,
     >,
 ) {
-    for (speed, mut state, mut direction, mut transform) in query.iter_mut() {
+    for (&Speed(speed), mut state, mut direction, mut transform) in
+        query.iter_mut()
+    {
         let mut velocity = Vec3::ZERO;
 
         if input.pressed(KeyCode::Left) {
@@ -126,7 +124,7 @@ fn move_player(
         }
 
         *state = CharacterState::Moving;
-        transform.translation += velocity.normalize() * speed.0 * TIME_STEP;
+        transform.translation += velocity.normalize() * speed * TIME_STEP;
     }
 }
 
@@ -147,26 +145,18 @@ fn change_animation(
         let row = *direction as usize;
 
         if *character_state == CharacterState::Idle {
-            sprite.index = row * SPRITESHEET_SIZE.1;
+            sprite.index = row * SPRITESHEET_SIZE.0;
             command.entity(entity).remove::<Play>();
             continue;
         }
 
         command.entity(entity).insert(Play);
 
-        match direction {
-            Direction::Up => {
-                *animation = animations.up.clone();
-            }
-            Direction::Right => {
-                *animation = animations.right.clone();
-            }
-            Direction::Down => {
-                *animation = animations.down.clone();
-            }
-            Direction::Left => {
-                *animation = animations.left.clone();
-            }
+        *animation = match direction {
+            Direction::Up => animations.up.clone(),
+            Direction::Right => animations.right.clone(),
+            Direction::Down => animations.down.clone(),
+            Direction::Left => animations.left.clone(),
         }
     }
 }
@@ -179,7 +169,6 @@ fn main() {
             width: 640.0,
             height: 480.0,
             resizable: false,
-            vsync: true,
             ..Default::default()
         })
         .init_resource::<PlayerAnimations>()
