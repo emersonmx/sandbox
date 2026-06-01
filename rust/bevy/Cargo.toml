@@ -5,5 +5,5 @@ members = [
     "empty_window",
     "move_square",
     "move_sprite",
-    "move_animated_sprite",
+    "move_animated_character",
 ]
