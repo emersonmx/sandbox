@@ -1,0 +1,11 @@
+[flake8]
+max-line-length = 80
+max-complexity = 10
+per-file-ignores =
+    dj_simple_pagination/settings.py: E501
+exclude =
+    .git/,
+    .mypy_cache/,
+    .pytest_cache/,
+    .venv/,
+    __pycache__/

@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "dj-simple-pagination"
+version = "0.1.0"
+description = ""
+authors = ["Emerson Max de Medeiros Silva <emersonmx@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4.1"
+django-environ = "^0.9.0"
+gunicorn = "^20.1.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+coverage = "^6.4.4"
+ipdb = "^0.13.9"
+invoke = "^1.7.1"
+pre-commit = "^2.20.0"
+pre-commit-hooks = "^4.3.0"
+pyupgrade = "^2.37.3"
+add-trailing-comma = "^2.2.3"
+yesqa = "^1.4.0"
+isort = "^5.10.1"
+black = "^22.6.0"
+flake8 = "^5.0.4"
+flake8-print = "^5.0.0"
+pep8-naming = "^0.13.1"
+vulture = "^2.5"
+bandit = "^1.7.4"
+djhtml = "^1.5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 80
+multi_line_output = 3
+
+[tool.black]
+line-length = 80
+
+[tool.vulture]
+min_confidence = 100
+exclude = [".git", ".pytest_cache", ".venv", "__pycache__"]
+
+[tool.bandit]
+exclude_dirs = [".pytest_cache", ".venv", "tests"]
