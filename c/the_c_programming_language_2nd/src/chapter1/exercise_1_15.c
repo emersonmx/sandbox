@@ -1,3 +1,6 @@
+// Rewrite the temperature conversion program of Section 1.2 to use a function
+// for conversion.
+
 #include <stdio.h>
 
 float fahrenheit_to_celsius(float value);
