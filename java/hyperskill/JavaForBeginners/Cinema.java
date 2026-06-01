@@ -13,13 +13,17 @@ public class Cinema {
             int input = getInput("""
                     1. Show the seats
                     2. Buy a ticket
+                    3. Statistics
                     0. Exit""");
             switch (input) {
                 case 1:
-                    showSeats(seats, rows, columns);
+                    showSeats(seats);
                     break;
                 case 2:
-                    buyTicket(seats, rows, columns);
+                    buyTicket(seats);
+                    break;
+                case 3:
+                    showStatistics(seats);
                     break;
                 case 0:
                     running = false;
@@ -39,11 +43,20 @@ public class Cinema {
     public static int getInput(String message) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(message);
-        System.out.print("> ");
         return scanner.nextInt();
     }
 
-    public static void showSeats(char[][] seats, int rows, int columns) {
+    public static int getRowSize(char[][] seats) {
+        return seats == null ? 0 : seats.length;
+    }
+
+    public static int getColumnSize(char[][] seats) {
+        return getRowSize(seats) > 0 ? seats[0].length : 0;
+    }
+
+    public static void showSeats(char[][] seats) {
+        int rows = getRowSize(seats);
+        int columns = getColumnSize(seats);
         System.out.println();
         System.out.println("Cinema:");
         for (int i = 0; i <= columns; i++) {
@@ -65,11 +78,36 @@ public class Cinema {
         System.out.println();
     }
 
-    public static void buyTicket(char[][] seats, int rows, int columns) {
-        int row = getInput("Enter a row number:");
-        int column = getInput("Enter a seat number in that row:");
-        int price = calculateTicketPrice(row, column, rows, columns);
+    public static void buyTicket(char[][] seats) {
+        int rows = getRowSize(seats);
+        int columns = getColumnSize(seats);
+        int row;
+        int column;
+
+        System.out.println();
+        while (true) {
+            row = getInput("Enter a row number:");
+            column = getInput("Enter a seat number in that row:");
+
+            if (row < 1 || row > rows || column < 1 || column > columns) {
+                System.out.println();
+                System.out.println("Wrong input!");
+                System.out.println();
+                continue;
+            }
+
+            if (seats[row - 1][column - 1] == 'B') {
+                System.out.println();
+                System.out.println("That ticket has already been purchased!");
+                System.out.println();
+                continue;
+            }
+
+            break;
+        }
+
         seats[row - 1][column - 1] = 'B';
+        int price = calculateTicketPrice(row, column, rows, columns);
         System.out.println();
         System.out.println("Ticket price: $" + price);
         System.out.println();
@@ -87,5 +125,60 @@ public class Cinema {
         }
 
         return 8;
+    }
+
+    public static void showStatistics(char[][] seats) {
+        int rows = getRowSize(seats);
+        int columns = getColumnSize(seats);
+        int seatCount = rows * columns;
+        int purchasedTickets = countPurchasedTickets(seats);
+        double percentage = (double) purchasedTickets / (double) seatCount * 100.0;
+
+        System.out.println();
+        System.out.printf("Number of purchased tickets: %d%n", purchasedTickets);
+        System.out.printf("Percentage: %.2f%%%n", percentage);
+        System.out.printf("Current income: $%d%n", calculateCurrentIncome(seats));
+        System.out.printf("Total income: $%d%n", calculateTotalIncome(seats));
+        System.out.println();
+    }
+
+    public static int countPurchasedTickets(char[][] seats) {
+        int count = 0;
+        int rows = getRowSize(seats);
+        int columns = getColumnSize(seats);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (seats[i][j] == 'B') {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public static int calculateCurrentIncome(char[][] seats) {
+        int income = 0;
+        int rows = getRowSize(seats);
+        int columns = getColumnSize(seats);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (seats[i][j] == 'B') {
+                    income += calculateTicketPrice(i + 1, j + 1, rows, columns);
+                }
+            }
+        }
+        return income;
+    }
+
+    public static int calculateTotalIncome(char[][] seats) {
+        int income = 0;
+        int rows = getRowSize(seats);
+        int columns = getColumnSize(seats);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                income += calculateTicketPrice(i + 1, j + 1, rows, columns);
+            }
+        }
+        return income;
     }
 }
