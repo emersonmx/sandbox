@@ -8,6 +8,35 @@ use bevy::{
 const TIME_STEP: f32 = 1.0 / 60.0;
 const SPRITESHEET_SIZE: (usize, usize) = (3, 4);
 
+fn main() {
+    App::new()
+        .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
+        .insert_resource(WindowDescriptor {
+            title: "Move Animated Character".to_string(),
+            width: 640.0,
+            height: 480.0,
+            resizable: false,
+            ..Default::default()
+        })
+        .init_resource::<PlayerAnimations>()
+        .add_plugins(DefaultPlugins)
+        .add_plugin(AnimationPlugin::default())
+        .add_startup_system_to_stage(
+            StartupStage::PreStartup,
+            create_player_animations,
+        )
+        .add_startup_system(setup_camera)
+        .add_startup_system(setup_player)
+        .add_system_set(
+            SystemSet::new()
+                .with_run_criteria(FixedTimestep::step(TIME_STEP as f64))
+                .with_system(move_player),
+        )
+        .add_system(change_animation)
+        .add_system(exit_on_esc_system)
+        .run();
+}
+
 #[derive(Component, Debug)]
 struct Player;
 
@@ -173,33 +202,4 @@ fn change_animation(
             Direction::Left => animations.left.clone(),
         }
     }
-}
-
-fn main() {
-    App::new()
-        .insert_resource(ClearColor(Color::rgb(0.1, 0.1, 0.1)))
-        .insert_resource(WindowDescriptor {
-            title: "Move Animated Character".to_string(),
-            width: 640.0,
-            height: 480.0,
-            resizable: false,
-            ..Default::default()
-        })
-        .init_resource::<PlayerAnimations>()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(AnimationPlugin::default())
-        .add_startup_system_to_stage(
-            StartupStage::PreStartup,
-            create_player_animations,
-        )
-        .add_startup_system(setup_camera)
-        .add_startup_system(setup_player)
-        .add_system_set(
-            SystemSet::new()
-                .with_run_criteria(FixedTimestep::step(TIME_STEP as f64))
-                .with_system(move_player),
-        )
-        .add_system(change_animation)
-        .add_system(exit_on_esc_system)
-        .run();
 }
