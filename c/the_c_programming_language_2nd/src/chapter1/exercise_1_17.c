@@ -3,21 +3,21 @@
 #define MAXLINE    1000
 #define MAX_LENGTH 80
 
-int mygetline(char line[], int maxline);
+int getline(char line[], int maxline);
 
 int main()
 {
     int len;
     char line[MAXLINE];
 
-    while ((len = mygetline(line, MAXLINE)) > 0)
+    while ((len = getline(line, MAXLINE)) > 0)
         if (len - 1 > MAX_LENGTH)
             printf("%.*s\n", len - 1, line);
 
     return 0;
 }
 
-int mygetline(char s[], int lim)
+int getline(char s[], int lim)
 {
     int c, i;
 

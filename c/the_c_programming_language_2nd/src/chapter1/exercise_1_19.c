@@ -3,7 +3,7 @@
 
 #define MAXLINE 1000
 
-int mygetline(char line[], int maxline);
+int getline(char line[], int maxline);
 void reverse(char line[], int maxline);
 
 int main()
@@ -11,7 +11,7 @@ int main()
     int len;
     char line[MAXLINE];
 
-    while ((len = mygetline(line, MAXLINE)) > 0) {
+    while ((len = getline(line, MAXLINE)) > 0) {
         line[--len] = '\0'; // remove newline
         reverse(line, len);
         printf("%.*s\n", len, line);
@@ -20,7 +20,7 @@ int main()
     return 0;
 }
 
-int mygetline(char s[], int lim)
+int getline(char s[], int lim)
 {
     int c, i;
 
