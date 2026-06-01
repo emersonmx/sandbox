@@ -1,5 +1,5 @@
 use bevy::{
-    core::FixedTimestep, input::system::exit_on_esc_system, prelude::*,
+    core::FixedTimestep, input::system::exit_on_esc_system, prelude::*, window::PresentMode,
 };
 
 const TIME_STEP: f32 = 1.0 / 60.0;
@@ -12,7 +12,7 @@ fn main() {
             width: 640.0,
             height: 480.0,
             resizable: false,
-            vsync: true,
+            present_mode: PresentMode::Immediate,
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
@@ -50,17 +50,13 @@ fn setup(mut commands: Commands) {
         .insert(Player { speed: 200.0 });
 }
 
-fn move_player(
-    input: Res<Input<KeyCode>>,
-    mut query: Query<(&Player, &mut Transform)>,
-) {
+fn move_player(input: Res<Input<KeyCode>>, mut query: Query<(&Player, &mut Transform)>) {
     let (player, mut transform) = query.single_mut();
     let mut velocity = Vec3::ZERO;
 
-    velocity.x = (input.pressed(KeyCode::Right) as i32
-        - input.pressed(KeyCode::Left) as i32) as f32;
-    velocity.y = (input.pressed(KeyCode::Up) as i32
-        - input.pressed(KeyCode::Down) as i32) as f32;
+    velocity.x =
+        (input.pressed(KeyCode::Right) as i32 - input.pressed(KeyCode::Left) as i32) as f32;
+    velocity.y = (input.pressed(KeyCode::Up) as i32 - input.pressed(KeyCode::Down) as i32) as f32;
 
     if velocity == Vec3::ZERO {
         return;

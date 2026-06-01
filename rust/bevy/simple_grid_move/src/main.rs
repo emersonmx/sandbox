@@ -97,9 +97,7 @@ fn move_player(
     }
 }
 
-fn convert_position_to_translation(
-    mut query: Query<(&Position, &mut Transform)>,
-) {
+fn convert_position_to_translation(mut query: Query<(&Position, &mut Transform)>) {
     for (position, mut transform) in query.iter_mut() {
         transform.translation.x = (position.x * TILE_SIZE as i32) as f32;
         transform.translation.y = (position.y * TILE_SIZE as i32) as f32;

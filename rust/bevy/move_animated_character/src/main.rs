@@ -1,9 +1,7 @@
 use std::time::Duration;
 
 use benimator::{AnimationPlugin, Play, SpriteSheetAnimation};
-use bevy::{
-    core::FixedTimestep, input::system::exit_on_esc_system, prelude::*,
-};
+use bevy::{core::FixedTimestep, input::system::exit_on_esc_system, prelude::*};
 
 const TIME_STEP: f32 = 1.0 / 60.0;
 const TILE_SIZE: usize = 64;
@@ -22,10 +20,7 @@ fn main() {
         .init_resource::<PlayerAnimations>()
         .add_plugins(DefaultPlugins)
         .add_plugin(AnimationPlugin::default())
-        .add_startup_system_to_stage(
-            StartupStage::PreStartup,
-            create_player_animations,
-        )
+        .add_startup_system_to_stage(StartupStage::PreStartup, create_player_animations)
         .add_startup_system(setup_camera)
         .add_startup_system(setup_ground)
         .add_startup_system(setup_player)
@@ -159,14 +154,9 @@ fn setup_player(
 
 fn move_player(
     input: Res<Input<KeyCode>>,
-    mut query: Query<
-        (&Speed, &mut CharacterState, &mut Direction, &mut Transform),
-        With<Player>,
-    >,
+    mut query: Query<(&Speed, &mut CharacterState, &mut Direction, &mut Transform), With<Player>>,
 ) {
-    for (&Speed(speed), mut state, mut direction, mut transform) in
-        query.iter_mut()
-    {
+    for (&Speed(speed), mut state, mut direction, mut transform) in query.iter_mut() {
         let mut velocity = Vec3::ZERO;
 
         if input.pressed(KeyCode::Left) {
@@ -207,9 +197,7 @@ fn change_animation(
         &mut Handle<SpriteSheetAnimation>,
     )>,
 ) {
-    for (entity, direction, character_state, mut sprite, mut animation) in
-        query.iter_mut()
-    {
+    for (entity, direction, character_state, mut sprite, mut animation) in query.iter_mut() {
         let row = *direction as usize;
 
         if *character_state == CharacterState::Idle {
