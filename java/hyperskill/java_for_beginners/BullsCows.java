@@ -1,9 +1,7 @@
-package bullscows;
-
 import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
+public class BullsCows {
     private static final String CHARS = "0123456789abcdefghijklmnopqrstuvwxyz";
 
     public static void main(String[] args) {
