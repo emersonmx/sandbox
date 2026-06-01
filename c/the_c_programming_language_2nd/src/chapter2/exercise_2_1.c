@@ -23,7 +23,7 @@ int main()
 
     printf("long: [%+ld,%+ld]\n", LONG_MIN, LONG_MAX);
     printf("signed long: [%+ld,%+ld]\n", LONG_MIN, LONG_MAX);
-    printf("unsigned long: [%lu,%lu]\n", 0ul, ULONG_MAX);
+    printf("unsigned long: [%lu,%lu]\n", 0UL, ULONG_MAX);
 
     return 0;
 }
