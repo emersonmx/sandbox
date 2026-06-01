@@ -1,5 +1,5 @@
 # dj-simple-pagination
 
-Estudo sobre otimização da listagem do admin.
+Study on how to optimize admin listing.
 
-Referência: https://hakibenita.com/optimizing-the-django-admin-paginator
+Reference: https://hakibenita.com/optimizing-the-django-admin-paginator
