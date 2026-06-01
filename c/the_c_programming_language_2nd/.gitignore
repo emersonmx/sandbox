@@ -75,5 +75,6 @@ _deps
 ### Extras ###
 
 build*/
+.cache/
 
 # End of https://www.toptal.com/developers/gitignore/api/c,cmake
