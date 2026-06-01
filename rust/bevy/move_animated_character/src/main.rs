@@ -36,6 +36,19 @@ struct PlayerAnimations {
     left: Handle<SpriteSheetAnimation>,
 }
 
+#[derive(Bundle)]
+struct PlayerBundle {
+    speed: Speed,
+    character_state: CharacterState,
+    direction: Direction,
+    _p: Player,
+
+    animation: Handle<SpriteSheetAnimation>,
+
+    #[bundle]
+    spritesheet: SpriteSheetBundle,
+}
+
 fn create_player_animations(
     mut animations: ResMut<PlayerAnimations>,
     mut assets: ResMut<Assets<SpriteSheetAnimation>>,
@@ -77,16 +90,17 @@ fn setup_player(
     );
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
 
-    command
-        .spawn_bundle(SpriteSheetBundle {
+    command.spawn_bundle(PlayerBundle {
+        speed: Speed(300.0),
+        character_state: CharacterState::Idle,
+        direction: Direction::Down,
+        _p: Player,
+        animation: animations.down.clone(),
+        spritesheet: SpriteSheetBundle {
             texture_atlas: texture_atlas_handle,
             ..Default::default()
-        })
-        .insert(Player)
-        .insert(Speed(300.0))
-        .insert(CharacterState::Idle)
-        .insert(Direction::Down)
-        .insert(animations.down.clone());
+        },
+    });
 }
 
 fn move_player(
