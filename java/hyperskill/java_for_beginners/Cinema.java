@@ -6,7 +6,7 @@ public class Cinema {
         int columns = getInput("Enter the number of seats in each row:");
         System.out.println();
 
-        char[][] seats = createSeates(rows, columns);
+        char[][] seats = createSeats(rows, columns);
 
         boolean running = true;
         while (running) {
@@ -32,7 +32,7 @@ public class Cinema {
         }
     }
 
-    public static char[][] createSeates(int rows, int columns) {
+    public static char[][] createSeats(int rows, int columns) {
         char[][] seats = new char[rows][columns];
         for (int i = 0; i < seats.length; i++) {
             Arrays.fill(seats[i], 'S');
