@@ -1,3 +1,6 @@
 [submodule "rust/bevy/pong"]
 	path = rust/bevy/pong
 	url = https://github.com/emersonmx/pong-in-bevy
+[submodule "rust/bevy/knights-tour"]
+	path = rust/bevy/knights-tour
+	url = https://github.com/emersonmx/knights-tour-bevy
